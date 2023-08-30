@@ -46,11 +46,11 @@ function navigateToNext(){
   //   </button>
   // );
   <button
-  className="my-4 py-1 flex h-[6.5rem] w-[20rem] items-center justify-between px-4  rounded-2xl bg-gray-100 font-extrabold text-gray-500"
+  className="my-4 py-1 flex h-[5rem] w-[20rem] items-center justify-between px-4  rounded-2xl bg-gray-100 font-extrabold text-gray-500"
   onClick={()=>navigateToNext()}
   >
-  <div className="relative h-[6rem] w-[40%] content-center justify-center rounded-xl">
-    <Image src={image} fill className="rounded-xl  object-cover -my-4 " alt={"picture"} />
+  <div className="relative h-[4.5rem] w-[4.5rem] content-center justify-center rounded-xl">
+    <Image src={image} fill className="rounded-xl  object-cover  " alt={"picture"} />
   </div>
 
   {itemName}

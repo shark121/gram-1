@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import Slider from "../../components/Slider";
-import {atom, getDefaultStore} from "jotai"
+import { atom, getDefaultStore } from "jotai";
 import SearchBar from "../../components/SearchBar";
 import Menu from "../../components/Menu";
 import airpods from "../images/airpods.jpg";
@@ -10,12 +10,11 @@ import watchesImg from "../images/watches.jpg";
 import Logo from "../images/LogoSmall.png";
 import Image from "next/image";
 import { useEffect } from "react";
-
-
+import Icon from "../images/svgImages/gram";
 
 export let containerArrayAtom = atom([]);
 
-export const dataArrayAtom = atom([])
+export const dataArrayAtom = atom([]);
 
 let menuItems = [
   {
@@ -41,31 +40,21 @@ let menuItems = [
 ];
 
 function HomePage() {
-
- 
   return (
-    <div
-      className={`flex min-h-screen w-full flex-col items-center justify-center bg-white p-2 overflow-x-hidden`}
-    >
-      <div className="relative flex h-[5rem] w-[12rem] items-center justify-center">
-        <Image
-          src={Logo}
-          fill
-          className="object-cover"
-          quality={10}
-          alt={"logo"}
-        />
+    <div className="min-w-screen flex min-h-screen items-center justify-center">
+      <div
+        className={`flex min-h-screen w-full flex-col items-center justify-center self-center justify-self-center overflow-x-hidden  bg-white p-2 md:w-[50rem]`}
+      >
+        <div className="h-[5rem] w-full bg-red-400">
+          
+        </div>
+        <div className="flex h-[15rem] w-[22rem] scale-150 items-center justify-center">
+          <Icon />
+        </div>
+        <Menu menuItems={menuItems} menuType={"homePage"} />
       </div>
-      <SearchBar />
-      <div className="flex h-[20rem] w-full items-center justify-center !px-2 !py-4 md:[&>*]:w-[40rem] ">
-        <Slider />
-      </div>
-      <Menu menuItems={menuItems} menuType={"homePage"} />
     </div>
-  )
-
-
- 
+  );
 }
 
 export default HomePage;
