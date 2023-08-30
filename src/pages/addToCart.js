@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import iphone from "../images/iphone.jpg";
 import Image from "next/image";
 
-
 function AddToCart() {
   let router = useRouter();
 
@@ -55,14 +54,13 @@ function AddToCart() {
     router.push("/cart");
   }
 
-
   return (
-    <div className="min-w-screen flex min-h-screen flex-col items-center justify-center p-4">
-      <div className="flex h-full w-full flex-col items-center justify-center gap-4 bg-white sm:w-[40rem]">
-        <div className="relative h-[20rem] w-[20rem] rounded-2xl">
+    <div className="min-w-screen flex min-h-screen flex-col items-center justify-center overflow-x-hidden p-4">
+      <div className="flex h-full w-full flex-col items-center justify-center  bg-white sm:w-[40rem]">
+        <div className="relative h-[20rem]  w-full  rounded-2xl">
           <Image fill src={iphone} className="rounded-2xl object-cover" />
         </div>
-        <div className="flex h-[30%]  w-full flex-col items-center justify-center">
+        <div className="flex h-[50%]  w-full flex-col items-center justify-center">
           <div className="items-left g-4 m-4 flex w-full flex-col justify-center rounded-lg bg-gray-200 p-4 font-bold text-gray-500">
             <div className="m-2 flex justify-between">
               <div>type</div>
@@ -83,16 +81,17 @@ function AddToCart() {
               <div>qty</div>
               <div>{quantityState}</div>
             </div>
+            <div className="h-[5rem] w-full flex justify-center items-center">
+              <button
+                onClick={handleOnClick}
+                className=" w-full rounded-sm bg-[#ff0066] p-4 font-bold text-white disabled:opacity-75 sm:w-[18rem]"
+                disabled={isDisabled}
+              >
+                add to cart
+              </button>
+            </div>
           </div>
         </div>
-
-        <button
-          onClick={handleOnClick}
-          className=" w-full rounded-sm bg-[rgb(56,57,63)] p-4 font-bold text-white disabled:opacity-75 sm:w-[18rem]"
-          disabled={isDisabled}
-        >
-          add to cart
-        </button>
       </div>
     </div>
   );

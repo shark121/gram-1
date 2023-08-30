@@ -6,12 +6,12 @@ import BackArrow from "@/images/svgImages/backArrow";
 import { useState } from "react";
 import { atom, useAtom, getDefaultStore } from "jotai";
 import { useRouter } from "next/router";
-
+import ColorPicker from "../../../components/colorPicker";
 
 function ItemPage() {
   const router = useRouter();
 
-  let pageElements = [<StorageSlider />, <ColorPage />, <Pieces />];
+  let pageElements = [<StorageSlider />, <ColorPicker />, <Pieces />];
 
   const [pageState, setPageState] = useState(0);
 

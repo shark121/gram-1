@@ -133,7 +133,7 @@ function addIndividualStyle(name) {
             <div>{tax}</div>
           </div>
         </div>
-        <button className="  justify-self-end m-4 bg-[rgb(52,59,67)] p-4 text-white w-[18rem] sm:w-full font-semibold"
+        <button className="  justify-self-end m-4 bg-[#ff0066] p-4 text-white w-[18rem] sm:w-full font-semibold"
         onClick={handleOnClick}
         >place order</button>
       </div>

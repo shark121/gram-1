@@ -11,6 +11,8 @@ import Logo from "../images/LogoSmall.png";
 import Image from "next/image";
 import { useEffect } from "react";
 import Icon from "../images/svgImages/gram";
+import Search from "../../components/search2";
+import SearchIcon from "@/images/svgImages/searchIcon";
 
 export let containerArrayAtom = atom([]);
 
@@ -45,8 +47,8 @@ function HomePage() {
       <div
         className={`flex min-h-screen w-full flex-col items-center justify-center self-center justify-self-center overflow-x-hidden  bg-white p-2 md:w-[50rem]`}
       >
-        <div className="h-[5rem] w-full bg-red-400">
-          
+        <div className="h-[5rem] w-full  flex justify-center items-center">
+          <Search/>
         </div>
         <div className="flex h-[15rem] w-[22rem] scale-150 items-center justify-center">
           <Icon />
