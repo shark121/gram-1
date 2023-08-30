@@ -64,7 +64,6 @@ export default function StorageSlider() {
                 </div>
                 <div className="h-full w-[60%] relative">
                   <Image className=" fixed object-contain -z-10" fill src={splash}/>
-                  <Image className="object-cover "  fill src={watchNoBg}/>
                 </div>
               </div>
             );
