@@ -1,4 +1,4 @@
-// import "@/styles/style.css";
+import "@/styles/style.css";
 import "tailwindcss/tailwind.css";
 import NavBar from "../../components/NavBar";
 import { Comfortaa } from "@next/font/google";

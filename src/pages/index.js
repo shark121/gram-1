@@ -45,12 +45,12 @@ function HomePage() {
   return (
     <div className="min-w-screen flex min-h-screen items-center justify-center">
       <div
-        className={`flex min-h-screen w-full flex-col items-center justify-center self-center justify-self-center overflow-x-hidden  bg-white p-2 md:w-[50rem]`}
+        className={`flex min-h-screen  w-full flex-col items-center justify-center self-center justify-self-center overflow-x-hidden  bg-white p-2 md:w-[50rem]`}
       >
         <div className="h-[5rem] w-full  flex justify-center items-center">
           <Search/>
         </div>
-        <div className="flex h-[15rem] w-[22rem] scale-150 items-center justify-center">
+        <div className="flex h-[20rem] w-[31rem]  items-center justify-center">
           <Icon />
         </div>
         <Menu menuItems={menuItems} menuType={"homePage"} />
