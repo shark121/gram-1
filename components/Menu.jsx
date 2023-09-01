@@ -24,10 +24,10 @@ function MapList({ image, itemName, collection, menuType }) {
 
   return (
     <button
-      className="my-2 flex h-[5rem] w-[20rem] items-center justify-between rounded-2xl bg-gray-100  px-4 py-1 font-extrabold text-gray-500"
+      className="m-2 flex h-[5rem] w-[20rem] items-center justify-between rounded-2xl bg-gray-100  px-4 py-1 font-extrabold text-gray-500   "
       onClick={() => navigateToNext()}
     >
-      <div className="relative h-[4.5rem] w-[4.5rem] content-center justify-center rounded-xl">
+      <div className="relative h-[4.5rem] w-[4.5rem] content-center justify-center rounded-xl ">
         <Image
           src={image}
           fill

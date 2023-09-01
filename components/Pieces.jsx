@@ -37,25 +37,25 @@ function Pieces() {
   }, [defaultValue]);
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center  justify-center">
-      <div className="my-6 text-[6rem]">Qty</div>
-      <div className="flex h-[7rem] w-[22rem] items-center justify-center">
+    <div className="flex h-[2rem] w-[12rem] flex-col items-center  justify-center ">
+      <div className="flex h-full w-full items-center justify-center">
         <button
-          className="m-4 p-4 text-[3.5rem] "
+          className=" p-4 text-[1.5rem] "
           onClick={() => changeDefaltValue(1)}
         >
           +
         </button>
         <input
-          className={`h-[5rem] ${
-            defaultValue > 9 ? "w-[7rem]" : "w-[4rem]"
-          } justify-center text-[5rem] text-gray-500 outline-none`}
+          className={`h-[2rem] ${
+            defaultValue > 9 ? "w-[1rem]" : "w-[2rem]"
+          } justify-center text-[1.5rem] text-gray-500 bg-gray-100 outline-none`}
           value={defaultValue}
           onChange={(e) => setDefaultValue(e.target.value)}
           type="text"
+          readOnly
         />
         <button
-          className="m-4 p-4 text-[3.5rem]"
+          className="  text-[1.5rem] rounded-full "
           onClick={() => changeDefaltValue(-1)}
         >
           -

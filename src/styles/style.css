@@ -1,16 +1,16 @@
-svg path {
+/* svg path {
   stroke-dasharray: 1000;
   stroke-dashoffset: 0;
   pointer-events: none;
   animation: animateDash 10s linear 2s forwards infinite;
-  /* animation: name duration timing-function delay iteration-count direction fill-mode; */
+  -webkit-tap-highlight-color: transparent;
 }
 
 @keyframes animateDash {
   0% {
     stroke-dashoffset: 0;
   }
-  40%{
+  40% {
     stroke-dashoffset: 1000;
   }
-}
+} */
