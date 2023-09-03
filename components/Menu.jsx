@@ -14,7 +14,7 @@ function MapList({ image, itemName, collection, menuType }) {
     if (menuType === "homePage") {
       router.push(`./${collection}`);
     } else if (menuType === "ListedItems") {
-      router.push(`./item/${collection}`);
+      router.push(`./addToCart/${itemName}`);
 
       sessionStorage.setItem("type", itemName);
 

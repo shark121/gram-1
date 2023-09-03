@@ -1,18 +1,11 @@
 import { useEffect, useState } from "react";
 import { atom, useAtom, getDefaultStore } from "jotai";
-import ColorSlider from "./ColorSlider";
-import Link from "next/link";
-import { colorAtom } from "./ColorPage";
-import { typeAtom } from "./Menu";
-import { storageAtom } from "./StorageSlider";
-import { idGenerator } from "./idGenerator";
 
 export const quantityAtom = atom(1);
 
 const defaultStore = getDefaultStore()
 
-function Pieces() {
-  let max = 99;
+function Pieces({max}) {
 
   const [defaultValue, setDefaultValue] = useState(1);
 

@@ -44,17 +44,34 @@ let menuItems = [
 function HomePage() {
   return (
     <div className="min-w-screen flex min-h-screen items-center justify-center">
-      <div
+      <motion.div
         className={`flex min-h-screen  w-full flex-col items-center justify-center self-center justify-self-center overflow-x-hidden  bg-white p-2 md:w-[50rem]`}
       >
-        <div className="h-[5rem] w-full  flex justify-center items-center">
-          <Search/>
-        </div>
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            delay: 1,
+          }}
+          className="flex h-[5rem]  w-full items-center justify-center"
+        >
+          <Search />
+        </motion.div>
         <div className="flex h-[20rem] w-[31rem]  items-center justify-center">
           <Icon />
         </div>
-        <Menu menuItems={menuItems} menuType={"homePage"} />
-      </div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.5,
+            delay: 1,
+          }}
+        >
+          <Menu menuItems={menuItems} menuType={"homePage"} />
+        </motion.div>
+      </motion.div>
     </div>
   );
 }
