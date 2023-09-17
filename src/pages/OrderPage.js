@@ -9,7 +9,7 @@ import PickupAvailableIcon from "@/images/svgImages/pickupAvailableIcon";
 import { useState } from "react";
 
 function OrderPage() {
-  const [orderConfiremed, setOrderConfirmed] = useState(false);
+  const [orderConfiremed, setOrderConfirmed] = useState(true);
   const [paymentReceived, setPaymentReceived] = useState(false);
   const [packageReady, setPackageReady] = useState(false);
   const [deliveryOnRoute, setDeliveryOnRoute] = useState(false);

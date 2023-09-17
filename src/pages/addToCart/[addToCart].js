@@ -117,9 +117,9 @@ function AddToCart({ itemData }) {
       type: sessionStorage.getItem("type"),
       color: sessionStorage.getItem("color"),
       storage: sessionStorage.getItem("storage"),
-      qty: sessionStorage.getItem("number"),
+      // qty: sessionStorage.getItem("number"),
+      qty:1,
       id: newId,
-      price: priceState,
       image: "",
     });
 
@@ -174,10 +174,7 @@ function AddToCart({ itemData }) {
             </div>
 
 
-            <div className="m-2 flex justify-between">
-              <div>qty</div>
-              <Pieces max={max} />
-            </div>
+            
             <div className="flex h-[5rem] w-full items-center justify-center">
               <button
                 onClick={handleOnClick}

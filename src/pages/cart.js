@@ -4,6 +4,10 @@ import Image from "next/image";
 import iphone from "../images/iphone.jpg";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { database, app } from "../../firebaseConfig";
+import { getDoc, collection, doc, getDocs } from "firebase/firestore";
+import{getAuth} from "firebase/auth"
+import { connectStorageEmulator } from "firebase/storage";
 
 const tax = 0;
 
@@ -15,45 +19,55 @@ function addIndividualStyle(name) {
   }
 }
 
-  function Cart() {
-    const router = useRouter();
+function Cart({ dataArray }) {
+  let priceData = dataArray[0]
 
-    const [phonesDataState, setPhonesDataState] = useState([]);
-    const [pricesState, setPricesState] = useState(0);
-   
-    
 
-    useEffect(() => {
-    let price = 0;
-    
+  const router = useRouter();
+
+  const [phonesDataState, setPhonesDataState] = useState([]);
+  const [pricesState, setPricesState] = useState(0);
+  const auth = getAuth()
+
+  useEffect(() => {
+    let priceTotal = 0;
+
     let CART_DATA = [];
-    
+
     let ID_LIST = [];
-    
+
     let collectedIds = JSON.parse(sessionStorage.getItem("ID_ARRAY"));
-    
+
     for (let key in collectedIds) {
       ID_LIST.push(collectedIds[key]);
     }
-    
+
     for (let key in collectedIds) {
       let currentElement = JSON.parse(
         sessionStorage.getItem(collectedIds[key])
       );
+
+      let getType = currentElement.type
+      let getPrice = priceData[getType]
+
+      currentElement.price = getPrice
+      currentElement.id = key
+      
       CART_DATA.push(currentElement);
-      price = price + currentElement.price*currentElement.qty;
-      setPricesState(price);
+
+      console.log(CART_DATA)
+      priceTotal = priceTotal + currentElement.price * currentElement.qty;
+      setPricesState(priceTotal);
     }
-    
+
     setPhonesDataState(CART_DATA);
   }, []);
 
+  function handleOnClick() {
 
-
-  function handleOnClick(){
-    router.push("/OrderPage")
+    router.push("/OrderPage");
   }
-  
+
   function DropCardDivision({ name, info }) {
     let shouldExclude = ["price", "id"];
 
@@ -102,7 +116,6 @@ function addIndividualStyle(name) {
     return <DropCard data={element} key={key} />;
   });
 
-
   return (
     <div className="min-w-screen flex min-h-screen items-center justify-center bg-[#] py-4">
       <div className="relative flex min-h-screen w-screen flex-col items-center md:w-[30rem] md:rounded-2xl">
@@ -123,22 +136,44 @@ function addIndividualStyle(name) {
           {...list}
         </div>
         <div className="items-left flex h-[6rem] w-[18rem] flex-col justify-center rounded-lg bg-gray-200 p-4 font-bold text-gray-500 sm:w-full">
-          <div className="justify-between flex">
+          <div className="flex justify-between">
             <div>subtotal</div>
             <div>{pricesState}</div>
           </div>
 
-          <div  className="justify-between flex">
+          <div className="flex justify-between">
             <div>tax</div>
             <div>{tax}</div>
           </div>
         </div>
-        <button className="  justify-self-end m-4 bg-[#ff0066] p-4 text-white w-[18rem] sm:w-full font-semibold"
-        onClick={handleOnClick}
-        >place order</button>
+        <button
+          className="  m-4 w-[18rem] justify-self-end bg-[#ff0066] p-4 font-semibold text-white sm:w-full"
+          onClick={handleOnClick}
+        >
+          place order
+        </button>
       </div>
     </div>
   );
 }
 
 export default Cart;
+
+export async function getStaticProps() {
+  const collectionRef = collection(database, "prices");
+
+  let dataArray = [];
+
+  await getDocs(collectionRef).then((data) => {
+    data.docs.forEach((element) =>
+      dataArray.push(element.data())
+    );
+  });
+
+
+  return {
+    props: {
+      dataArray: dataArray
+    },
+  };
+}

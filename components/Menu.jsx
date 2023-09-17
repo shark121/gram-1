@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 export const typeAtom = atom("");
 
-function MapList({ image, itemName, collection, menuType }) {
+function MapList({ image, itemName, collection, menuType, price }) {
   let defaultStore = getDefaultStore();
 
   let router = useRouter();
@@ -42,7 +42,7 @@ function MapList({ image, itemName, collection, menuType }) {
 }
 
 function Menu({ menuItems, menuType }) {
-  let list = menuItems.map(({ image, name, collection }) => {
+  let list = menuItems.map(({ image, name, collection,price }) => {
     return (
       <MapList
         image={image}

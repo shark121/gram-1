@@ -11,6 +11,8 @@ import Search from "../../components/search2";
 function ListedItems({ data }) {
   let collectedData = data.name;
 
+  console.log(collectedData)
+
   return (
     <div className="flex h-screen w-screen  flex-wrap justify-center gap-4 p-4">
       <Search />
