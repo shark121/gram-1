@@ -1,17 +1,15 @@
 import { list } from "firebase/storage";
 import { storage, app, database } from "../../firebaseConfig";
-import { doc, collection, getDocs } from "firebase/firestore";
+import { doc, collection, getDocs, getDoc } from "firebase/firestore";
 import Image from "next/image";
 import Menu from "../../components/Menu";
-import SearchBar from "../../components/SearchBar";
-import { useAtom, atom, getDefaultStore } from "jotai";
 import { useEffect } from "react";
 import Search from "../../components/search2";
 
-function ListedItems({ data }) {
-  let collectedData = data.name;
+function ListedItems({  newData }) {
+  let collectedData = newData;
 
-  console.log(collectedData)
+  console.log(collectedData);
 
   return (
     <div className="flex h-screen w-screen  flex-wrap justify-center gap-4 p-4">
@@ -54,18 +52,17 @@ export function getStaticPaths() {
 export async function getStaticProps(context) {
   const route = context.params.ListedItems;
 
-  let collectionRef = collection(database, route || "phones");
+  let getDocumentData = await getDoc(doc(database, "Collection", route));
 
-  let data = await getDocs(collectionRef);
-  let collectedData;
+  let documentData = getDocumentData.data();
 
-  data.docs.map((item) => {
-    collectedData = item.data();
-  });
+  let getObjects = documentData.objects;
+
+  let dataArray = [...getObjects];
 
   return {
     props: {
-      data: collectedData,
+      newData: dataArray,
     },
   };
 }

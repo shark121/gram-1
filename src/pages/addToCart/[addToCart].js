@@ -8,6 +8,7 @@ import StorageOptions from "../../../components/storageOptions";
 import ColorOptions from "../../../components/colorOptions";
 import Pieces from "../../../components/Pieces";
 import { database } from "../../../firebaseConfig";
+import Icon from "@/images/svgImages/gram";
 import {
   collection,
   doc,
@@ -41,8 +42,7 @@ const colorData = [
 ];
 
 function AddToCart({ itemData }) {
-
-  console.log(itemData)
+  console.log(itemData);
   const router = useRouter();
 
   let availableStorge = Object.keys(itemData[0]);
@@ -53,45 +53,43 @@ function AddToCart({ itemData }) {
   }));
 
   const [storageState, setStorageState] = useState(storageArray[0]);
-  
-  let currentStorage = storageState.name.slice(0,3).trim()
-  
+
+  let currentStorage = storageState.name.slice(0, 3).trim();
+
   let getAvailableColors = Object.keys(itemData[0][currentStorage]);
-  
-  let availableColors=[]
-  
+
+  let availableColors = [];
+
   for (let element of colorData) {
     if (getAvailableColors.includes(element.name)) {
-      availableColors.push(element)
+      availableColors.push(element);
     }
   }
-  
+
   const [colorState, setColorState] = useState(availableColors[0]);
   const [quantityState, setQuantityState] = useState(null);
   const [priceState, setPriceState] = useState(80);
   const [isDisabled, setIsDisabled] = useState(false);
   const [typeState, setTypeState] = useState("");
   const [storageArraysState, setStorageArrayState] = useState(storageArray);
-  const [colorDataState, setColorDataState] =  useState([])
+  const [colorDataState, setColorDataState] = useState([]);
 
   function createObjectsWithData() {
-
     setStorageArrayState(storageArray);
 
-    let currentStorage = storageState.name.slice(0,3).trim()
+    let currentStorage = storageState.name.slice(0, 3).trim();
 
     let getAvailableColors = Object.keys(itemData[0][currentStorage]);
-     
-    let availableColors=[]
+
+    let availableColors = [];
 
     for (let element of colorData) {
       if (getAvailableColors.includes(element.name)) {
-        availableColors.push(element)
+        availableColors.push(element);
       }
     }
-    
-    setColorState(availableColors[0])
-    
+
+    setColorState(availableColors[0]);
   }
 
   useEffect(() => {
@@ -101,14 +99,10 @@ function AddToCart({ itemData }) {
   function checkAvailable() {
     useEffect(() => {
       createObjectsWithData();
-    },[storageState]);
+    }, [storageState]);
   }
 
-  function fecthMaximum(){
-
-  }
-
-  checkAvailable()
+  checkAvailable();
 
   function handleOnClick() {
     let newId = idGenerator();
@@ -118,7 +112,7 @@ function AddToCart({ itemData }) {
       color: sessionStorage.getItem("color"),
       storage: sessionStorage.getItem("storage"),
       // qty: sessionStorage.getItem("number"),
-      qty:1,
+      qty: 1,
       id: newId,
       image: "",
     });
@@ -143,49 +137,45 @@ function AddToCart({ itemData }) {
   }
 
   return (
-    <div className="min-w-screen flex min-h-screen flex-col items-center justify-center overflow-x-hidden py-4">
-      <div className="flex h-full w-full flex-col items-center justify-center  bg-white sm:w-[34rem]">
-        <div className="relative h-[25rem]  w-full  rounded-2xl">
-          <Image fill src={iphone} className="rounded-2xl object-cover" />
+    <div className="min-w-screen flex min-h-screen flex-col items-center overflow-x-hidden ">
+      <div className="flex h-full w-full flex-col    bg-white sm:w-[30rem]">
+        <div className="flex h-[5rem] w-full items-center justify-around">
+          <div></div>
+          <div className="flex h-[8rem] w-[10rem] self-center justify-self-center ">
+            <Icon />
+          </div>
+          <div className="h-[3rem] w-[3rem] rounded-full bg-gray-200"></div>
         </div>
-        <div className="flex h-[30%]  w-full flex-col items-center justify-center">
-          <div className="items-left  m-4 flex w-full flex-col justify-center rounded-lg bg-gray-100 p-4 font-bold text-gray-500">
-            <div className="m-2 flex w-full items-center justify-center text-[1.5rem] font-bold">
-              <div className="flex items-center justify-center">
-                {typeState}
-              </div>
-            </div>
-            <div className="m-2 flex items-center justify-between">
-              <div>Storage</div>
+        <div className="flex w-full items-center justify-center p-8 text-center text-[2rem] font-semibold text-gray-400">
+          <div className="b px-4rounded-lg">{/* {typeState} */}I PHONE X</div>
+        </div>
+        <div className="flex h-[25rem] w-full">
+          <div className=" relative  h-full   w-[60%]">
+            <Image fill src={iphone} className="rounded-2xl object-cover" />
+          </div>
+          <div className=" flex h-full w-[40%]  flex-col items-center justify-center gap-8  ">
+            <StorageOptions
+              storage={storageState}
+              storageData={storageArraysState}
+              setStorage={setStorageState}
+            />
 
-              <StorageOptions
-                storage={storageState}
-                storageData={storageArraysState}
-                setStorage={setStorageState}
-              />
-            </div>
+            <ColorOptions
+              color={colorState}
+              colorData={availableColors}
+              setColor={setColorState}
+            />
 
-            <div className="m-2 flex items-center justify-between">
-              <ColorOptions
-                color={colorState}
-                colorData={availableColors}
-                setColor={setColorState}
-              />
-            </div>
-
-
-            
-            <div className="flex h-[5rem] w-full items-center justify-center">
-              <button
-                onClick={handleOnClick}
-                className=" w-full rounded-sm bg-[#ff0066] p-4 font-bold text-white disabled:opacity-75 sm:w-[18rem]"
-                disabled={isDisabled}
-              >
-                add to cart
-              </button>
-            </div>
+            <button
+              className="m-[1.2rem] h-[2.5rem] w-full rounded-md bg-[#ff0066] font-bold text-[#ffffff]"
+              onClick={handleOnClick}
+              disabled={isDisabled}
+            >
+              add
+            </button>
           </div>
         </div>
+
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import Icon from "@/images/svgImages/gram";
 import {
   getAuth,
   signInWithPhoneNumber,
+  PhoneAuthProvider,
   RecaptchaVerifier,
 } from "firebase/auth";
 import { app } from "../../firebaseConfig";
@@ -11,26 +12,32 @@ import SignUPComponent from "../../components/SignUpComponent";
 import OtpVerify from "../../components/otpVerify";
 
 export default function SignInPage() {
-  const [numberState, setNumberState] = useState("+233507462509");
+  const [numberState, setNumberState] = useState("");
   const [signIn, setSignIn] = useState(true);
   const [responseState, setResponseState] = useState({});
   const [userOtpState, setUserOtpState] = useState("");
   const [showVerifyState, setShowVerifyState] = useState(false);
 
-  const phoneNumber = "+233507462509";
   const auth = getAuth(app);
 
   async function confirmResponse(enteredOTP) {
-  let verify = await responseState.confirm(enteredOTP);
-  // showVerifyState(true)
 
-  return verify
+   await responseState.confirm(enteredOTP).then(response=>{
+    console.log(response)
+    console.log(response.user.uid)
+    console.log(response.user.metadata)
+    console.log(response.user.providerInfo)
+    setShowVerifyState(false)
+   })
+
+   
+
 }
 
 
 
-  async function requestOTP() {
-    function setUpRecaptcha(number) {
+  async function requestOTP(number) {
+    function setUpRecaptcha() {
       const recaptchaVerifier = new RecaptchaVerifier(
         "recaptcha-container",
         {},
@@ -47,7 +54,7 @@ export default function SignInPage() {
         setShowVerifyState(true)
       })
       .catch((err) => {
-        console.log(err.message);
+        console.log(err);
       });
   }
 

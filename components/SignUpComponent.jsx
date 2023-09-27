@@ -1,27 +1,66 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-export default function SignUPComponent(requestOTP, setSignIn, setNumberState) {
-  const [FirstNameState, setNameState] = useState();
-  const [LastNameState, setLastNameState] = useState("");
+export default function SignUPComponent({
+  requestOTP,
+  setSignIn,
+  signInState,
+  setNumberState,
+}) {
+  let firstNameRef = useRef(null);
+  let phoneNumberRef = useRef(null);
+  let lastNameRef = useRef(null);
+  let locationRef = useRef(null);
+
+  let countryCode = "+233";
+
   let [locationState, setLocationState] = useState("");
 
   function getLocation() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(showLocation);
+      navigator.geolocation.watchPosition(showLocation, (err)=>console.log(err.message),{timeout:6000});
     } else {
-      x.innerHTML = "Geolocation is not supported by this browser.";
+      window.alert("Geolocation is not supported by this browser.");
     }
 
     function showLocation(position) {
-      let location =  "Lat:"+ position.coords.latitude + "\n  Lng: " + position.coords.longitude
+      let location =
+        position.coords.latitude + "  " + position.coords.longitude;
       console.log(position);
 
-      setLocationState(location)
+      setLocationState(location);
     }
   }
 
   function handleSubmit() {
-    requestOTP();
+    let firstName = firstNameRef.current.value;
+    let lastName = lastNameRef.current.value;
+    let phoneNumber = phoneNumberRef.current.value;
+    let location = locationRef.current.value;
+
+    console.log(firstName, lastName, phoneNumber, location);
+
+    let credentialsEntered =
+      firstName && lastName && phoneNumber && location;
+
+    let isValidPhoneNumber =
+      phoneNumber.length == 10 &&
+      String(Number(phoneNumber)) != "NaN" &&
+      phoneNumber[0] == "0";
+
+    if (!credentialsEntered) {
+      window.alert("please enter all credentials");
+      return;
+    } else if (!isValidPhoneNumber) {
+      window.alert("please enter a valid phone number");
+      return;
+    }
+
+    const formattedPhoneNumber = countryCode + phoneNumber.slice(1);
+
+    setNumberState(formattedPhoneNumber);
+    requestOTP(formattedPhoneNumber);
+
+    // window.alert("signed in");
   }
 
   return (
@@ -31,7 +70,7 @@ export default function SignUPComponent(requestOTP, setSignIn, setNumberState) {
       </h2>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm  ">
-        <form className="space-y-6" action="#" method="POST">
+        <div className="space-y-6" action="#" method="POST">
           <div>
             <label
               htmlFor="email"
@@ -41,11 +80,11 @@ export default function SignUPComponent(requestOTP, setSignIn, setNumberState) {
             </label>
             <div className="mt-2">
               <input
-                id="email"
-                name="email"
+                ref={firstNameRef}
                 type="text"
                 autoComplete="name"
                 required
+                onChange={() => {}}
                 className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm outline-none ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#ff0066] sm:text-sm sm:leading-6"
               />
             </div>
@@ -59,8 +98,7 @@ export default function SignUPComponent(requestOTP, setSignIn, setNumberState) {
             </label>
             <div className="mt-2">
               <input
-                id="email"
-                name="email"
+                ref={lastNameRef}
                 type="text"
                 autoComplete="name"
                 required
@@ -83,8 +121,7 @@ export default function SignUPComponent(requestOTP, setSignIn, setNumberState) {
             </label>
             <div className="mt-2">
               <input
-                id="email"
-                name="email"
+                ref={locationRef}
                 type="text"
                 autoComplete="address"
                 defaultValue={locationState}
@@ -106,8 +143,7 @@ export default function SignUPComponent(requestOTP, setSignIn, setNumberState) {
             </div>
             <div className="mt-2">
               <input
-                id="password"
-                name="password"
+                ref={phoneNumberRef}
                 type="string"
                 autoComplete="phone number"
                 required
@@ -117,6 +153,10 @@ export default function SignUPComponent(requestOTP, setSignIn, setNumberState) {
           </div>
 
           <div>
+            <div
+              className=" mt-4 flex items-center justify-center"
+              id="recaptcha-container"
+            ></div>
             <button
               type="submit"
               className="flex w-full justify-center rounded-md bg-[#ff0066] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#ff0066]"
@@ -125,12 +165,8 @@ export default function SignUPComponent(requestOTP, setSignIn, setNumberState) {
             >
               Create Account
             </button>
-            <div
-              className=" mt-4 flex items-center justify-center"
-              id="recaptcha-container"
-            ></div>
           </div>
-        </form>
+        </div>
         <p className="mb-4 mt-2 text-center text-sm text-gray-500">
           Already have an account?{" "}
           <button

@@ -41,9 +41,7 @@ export default function OtpVerify({ setUserOtpState, confirmResponse }) {
      setVerificationCodeState(desktopVerification)
      setUserOtpState(desktopVerification)
      
-     confirmResponse.then(result=>{
-        console.log(result)
-     })
+     confirmResponse(desktopVerification)
 
 
     console.log(desktopVerification)

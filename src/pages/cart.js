@@ -19,8 +19,8 @@ function addIndividualStyle(name) {
   }
 }
 
-function Cart({ dataArray }) {
-  let priceData = dataArray[0]
+function Cart({  pricesObject }) {
+  let priceData = pricesObject
 
 
   const router = useRouter();
@@ -170,10 +170,19 @@ export async function getStaticProps() {
     );
   });
 
+  let pricesObject = {}
+
+  for(let object of dataArray){
+    Object.assign(pricesObject,object)
+}
+
+
+  console.log(pricesObject)
+
 
   return {
     props: {
-      dataArray: dataArray
+      pricesObject : pricesObject
     },
   };
 }
