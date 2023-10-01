@@ -3,97 +3,85 @@ import React, { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useSwiperSlide } from "swiper/react";
 import { FreeMode, Mousewheel } from "swiper";
-import { getDefaultStore, useAtom, atom, useSetAtom } from "jotai";
-import watchNoBg from "../src/images/watchNoBg.png"
-import splash from "../src/images/splash.png"
-import Image from "next/image";
+
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
-import Slider from "./Slider";
 
-// import required modules
 
-const storageData = [
-  { id: 1, text: "best watch deals", imageSrc: "" },
-  
-];
+export default function SliderComponent({
+  data,
+  setStorageState,
+  storageState,
+}) {
+  const [activeId, setActiveId] = useState(storageState.id);
 
-export const storageAtom = atom(storageData[0].text);
-
-export default function StorageSlider() {
-  let defaultStore = getDefaultStore();
-
-  const [storageAtomState, setStorageAtomState] = useAtom(storageAtom);
-
-  const [active, setActive] = useState();
-
-  const [activeStorage, setActiveStorage] = useState();
+  const [activeStorage, setActiveStorage] = useState(storageState);
 
   function setTrayStorage() {
     useEffect(() => {
-      setStorageAtomState(activeStorage);
-
-      sessionStorage.setItem("storage", activeStorage);
-
-      // console.log(storageAtomState, activeStorage, defaultStore.get(storageAtom));
+      setStorageState(activeStorage);
+      sessionStorage.setItem("storage", activeStorage.name)
     }, [activeStorage]);
   }
 
   setTrayStorage();
 
-  let scale = "";
+  let indicatorStyle = "";
   let list = [];
 
-  for (let element of storageData) {
+  for (let element of data) {
     list.push(
       <SwiperSlide
-        className={`flex h-[100%] w-[30%] flex-row items-center justify-center font-bold ${scale} relative`}
+      key={element.id}
+        className={`relative flex h-full flex-row items-center justify-center font-bold `}
+        onClick={() => {
+          setActiveId(element.id);
+          setActiveStorage(element);
+        }}
       >
         {({ isActive }) => {
-          isActive ? setActive(element.id) : null;
-          isActive ? setActiveStorage(element.text) : null;
-          active === element.id
-            ? (scale = "text-gray-800 scale-110")
-            : (scale = "text-gray-400");
+          activeId === element.id
+            ? (indicatorStyle = "text-white bg-blue-300")
+            : (indicatorStyle = "text-gray-500");
           {
             return (
-              <div className="h-full w-full flex ">
-                <div className={`h-full w-[50%] text-[2rem] text-gray-500 flex justify-center items-center`}>
-                  {element.text}
+              <button
+                className={`flex h-full w-[4.6rem] items-center justify-center text-gray-500`}
+              >
+                <div className={`h-[2rem] ${indicatorStyle} rounded-xl  p-2`}>
+                  <div
+                    className={`flex h-full w-full items-center justify-center  `}
+                  >
+                    {element.name}
+                  </div>
                 </div>
-                <div className="h-full w-[60%] relative">
-                  <Image className=" fixed object-contain -z-10" fill src={splash}/>
-                  <Image className="object-cover "  fill src={watchNoBg}/>
-                </div>
-              </div>
+              </button>
             );
           }
         }}
       </SwiperSlide>
-    );
+    )
+    
   }
 
   return (
-    <div className=" flex h-full w-screen  flex-col items-center justify-center overflow-hidden ">
-      <div className="h-full w-full">
-        <Swiper
-          keyboard={{
-            enabled: true,
-          }}
-          autoplay={true}
-          direction="horizontal"
-          mousewheel={true}
-          slidesPerView={1.2}
-          spaceBetween={10}
-          freeMode={true}
-          modules={[FreeMode, Mousewheel]}
-          className="mySwiper  flex h-[20rem]  w-full items-center justify-center"
-        >
-          {...list}
-        </Swiper>
-      </div>
-      {/* <button className="p-4 w-[80%] font-bold text-[#ff0066] md:hover:scale-x-110 text-[2rem] md:w-[15rem] m-4">Next</button> */}
+    <div className="  w-full ">
+      <Swiper
+        keyboard={{
+          enabled: true,
+        }}
+        autoplay={true}
+        direction="horizontal"
+        mousewheel={true}
+        slidesPerView={3.2}
+        spaceBetween={"1px"}
+        freeMode={true}
+        modules={[FreeMode, Mousewheel]}
+        className="mySwiper  flex h-full   w-full items-center justify-center"
+      >
+        {...list}
+      </Swiper>
     </div>
   );
 }

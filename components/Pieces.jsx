@@ -7,9 +7,8 @@ const defaultStore = getDefaultStore()
 
 function Pieces({max}) {
 
-  const [defaultValue, setDefaultValue] = useState(1);
 
-  const [quantityAtomState, setQuantityAtomState] = useAtom(quantityAtom);
+  const [defaultValue, setDefaultValue] = useState(1);
 
   function changeDefaltValue(step) {
     if (defaultValue == 1 && step < 0) return;
@@ -30,25 +29,19 @@ function Pieces({max}) {
   }, [defaultValue]);
 
   return (
-    <div className="flex h-[2rem] w-[12rem] flex-col items-center  justify-center ">
-      <div className="flex h-full w-full items-center justify-center">
+    <div className="flex h-full flex-col items-center  justify-center ">
+      <div className="flex h-full w-full flex-col items-center justify-center">
         <button
           className=" p-4 text-[1.5rem] "
           onClick={() => changeDefaltValue(1)}
         >
           +
         </button>
-        <input
-          className={`h-[2rem] ${
-            defaultValue > 9 ? "w-[1rem]" : "w-[2rem]"
-          } justify-center text-[1.5rem] text-gray-500 bg-gray-100 outline-none`}
-          value={defaultValue}
-          onChange={(e) => setDefaultValue(e.target.value)}
-          type="text"
-          readOnly
-        />
+        <div className="h-[2rem] w-[2rem] bg-[#ff0066] text-white rounded-full font-bold flex items-center justify-center">
+         {defaultValue}  
+        </div>
         <button
-          className="  text-[1.5rem] rounded-full "
+          className=" p-4 text-[1.5rem] "
           onClick={() => changeDefaltValue(-1)}
         >
           -

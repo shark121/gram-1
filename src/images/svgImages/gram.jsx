@@ -5,12 +5,15 @@ import { motion as m } from "framer-motion";
 
 
 
-function Icon() {
+function Icon({height,width}) {
+
+  let getHeight = height || "100%"
+  let getWidth = width || "100%"
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="100%"
-      height="100%"
+      width={getWidth}
+      height = {getHeight}
       version="1"
       viewBox="-10 0 900 600"
       fill="#343434"
