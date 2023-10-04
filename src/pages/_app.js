@@ -11,7 +11,7 @@ const comfotaa = Comfortaa({
 
 export default function App({ Component, pageProps }) {
   return (
-    <div className={`${comfotaa.className} min-h-screen min-w-screen`}>
+    <div className={`${comfotaa.className} min-h-screen min-w-screen relative`}>
       <Component {...pageProps} />
     </div>
   );

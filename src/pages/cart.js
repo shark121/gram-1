@@ -63,7 +63,8 @@ function Cart({ pricesObject }) {
   }, []);
 
   function handleOnClick() {
-    router.push("/OrderPage");
+    console.log(phonesDataState)
+    // router.push("/OrderPage");
   }
 
 
@@ -149,7 +150,7 @@ function Cart({ pricesObject }) {
               </button>
             </div>
             <div className="flex h-[100%]  w-[30%] flex-col items-center justify-center ">
-              <Pieces max={maximum} />{" "}
+              <Pieces max={maximum} id={id} />{" "}
             </div>
           </div>
         </div>
@@ -195,7 +196,7 @@ function Cart({ pricesObject }) {
           </div>
         </div>
         <button
-          className="  m-4 w-[18rem] justify-self-end bg-[#ff0066] p-4 font-semibold text-white sm:w-full"
+          className="  m-4 w-[18rem] justify-self-end bg-gray-800 p-4 font-semibold text-white sm:w-full"
           onClick={handleOnClick}
         >
           place order

@@ -5,17 +5,22 @@ export const quantityAtom = atom(1);
 
 const defaultStore = getDefaultStore()
 
-function Pieces({max}) {
+function Pieces({max, id}) {
 
+  let itemQuantityId = id+'_qantity'
 
   const [defaultValue, setDefaultValue] = useState(1);
 
   function changeDefaltValue(step) {
+
+
     if (defaultValue == 1 && step < 0) return;
 
     if (defaultValue == max && step > 0) return;
 
     setDefaultValue((defaultValue) => Number(defaultValue) + step || 1);
+
+    sessionStorage.setItem(itemQuantityId,defaultValue)
   }
 
  

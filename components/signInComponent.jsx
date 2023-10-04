@@ -33,7 +33,7 @@ export default function SignInComponent({
 
     const formattedPhoneNumber = countryCode + phoneNumber.slice(1)
 
-O
+
     setNumberState(formattedPhoneNumber)
     requestOTP()
   }

@@ -1,6 +1,6 @@
 import { getDefaultStore } from "jotai";
 import { idGenerator } from "../../../components/idGenerator";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import iphone from "../../images/iphoneBgBlack.jpg";
 import Image from "next/image";
@@ -14,6 +14,7 @@ import {
   doc,
   getDoc,
 } from "firebase/firestore";
+import Loading from "../loading";
 
 
 const collectionRef = collection(database, "phoneItems");
@@ -82,19 +83,20 @@ function AddToCart({ itemData }) {
   useEffect(() => {
     setTypeState(sessionStorage.getItem("type"));
   }, []);
-
+  
   function checkAvailable() {
     useEffect(() => {
       createObjectsWithData();
       console.log(storageState)
     }, [storageState]);
   }
-
+  
   checkAvailable();
-
+  
   function handleOnClick() {
-
+    
     let newId = idGenerator();
+    // document.documentElement.requestFullscreen()
 
     let itemType = sessionStorage.getItem("type")
     let itemColor = sessionStorage.getItem("color")
@@ -109,6 +111,7 @@ function AddToCart({ itemData }) {
       storage: itemStorage,
       id: newId,
       maximum: maximum,
+      
       image: "",
     });
 
@@ -132,22 +135,21 @@ function AddToCart({ itemData }) {
   }
 
   return (
+    <Suspense fallback={<Loading/>}>
+
     <div 
-    className={` min-h-screen items-center justify-center `}>
-      <div className="flex min-h-screen w-screen flex-col items-center justify-between relative landscape:h-[50vh]">
-        {/* <div className=" flex w-full items-center justify-center sm:-mb-2 h-[10vh]">
-          <Icon height={"10rem"} width={"10rem"} />
-        </div> */}
-        <div className="relative   flex h-[60vh]  w-full sm:w-[35rem] items-center justify-center ">
-          {/* <div className="absolute -z-10 h-[37vh] w-[37vh] rounded-full bg-[#f4c2c2] "></div>
-          <div className="absolute -z-10 h-[32vh] w-[32vh] rounded-full ring-[4px] ring-[#ffffff] "></div> */}
+    className={` min-h-screen flex items-center justify-center `}
+    >
+      <div className="flex min-h-screen w-screen sm:w-[30rem] flex-col items-center justify-center relative landscape:h-[50vh]">
+
+        <div className="relative flex h-[50vh] bg-gray-100 box-border w-full sm:w-[35rem] items-center justify-center px-3">
           <Image
             src={iphone}
             fill
-            className="object-cover "
-          />
+            className="object-cover hidden absolute rounded-b-[2rem] left-2 right-2"
+            />
         </div>
-        <div className="  sm:relative bottom-[1rem] h-[35vh] landscape:[30vh] w-full  flex items-center justify-center">
+        <div className=" h-[49vh] landscape:[50vh] w-full  flex items-start justify-center">
           <Customize
             storageData={storageArraysState}
             colorData={availableColors}
@@ -158,10 +160,11 @@ function AddToCart({ itemData }) {
             handleOnClick={handleOnClick}
             isDisabled={isDisabled}
             typeState={typeState}
-          />
+            />
         </div>
       </div>
     </div>
+</Suspense>
   );
 }
 
