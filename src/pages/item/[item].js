@@ -1,17 +1,17 @@
-import StorageSlider, { storageAtom } from "../../../components/StorageSlider";
-import ColorPage from "../../../components/ColorPage";
-import Pieces, { quantityAtom } from "../../../components/Pieces";
+import StorageSlider, { storageAtom } from "../../../components/ui/storage/StorageSlider";
+import ColorPage from "../../../components/ui/color/ColorPage";
+import Pieces, { quantityAtom } from "../../../components/ui/Pieces";
 import NextArrow from "@/images/svgImages/nextArrow";
 import BackArrow from "@/images/svgImages/backArrow";
 import { useState } from "react";
 import { atom, useAtom, getDefaultStore } from "jotai";
 import { useRouter } from "next/router";
-
+import ColorPicker from "../../../components/ui/color/colorPicker";
 
 function ItemPage() {
   const router = useRouter();
 
-  let pageElements = [<StorageSlider />, <ColorPage />, <Pieces />];
+  let pageElements = [<StorageSlider />, <ColorPicker />, <Pieces />];
 
   const [pageState, setPageState] = useState(0);
 
