@@ -4,22 +4,16 @@ import {
   signInWithPhoneNumber,
   PhoneAuthProvider,
   RecaptchaVerifier,
-  updateProfile,
 } from "firebase/auth";
-import { app, database } from "../../firebaseConfig";
+import { app } from "../../firebaseConfig";
 import { useEffect, useState } from "react";
-import SignInComponent from "../../components/verification/signInComponent";
-import SignUPComponent from "../../components/verification/SignUpComponent";
-import OtpVerify from "../../components/verification/otpVerify";
-import { setDoc, doc, collection, addDoc } from "firebase/firestore";
-import { data } from "autoprefixer";
-import { useRouter } from "next/router";
+import SignInComponent from "../../components/signInComponent";
+import SignUPComponent from "../../components/SignUpComponent";
+import OtpVerify from "../../components/otpVerify";
 
 export default function SignInPage() {
-  const router = useRouter();
   const [numberState, setNumberState] = useState("");
   const [signIn, setSignIn] = useState(true);
-  const [userDetailsState, setUserDetailsState] = useState({});
   const [responseState, setResponseState] = useState({});
   const [userOtpState, setUserOtpState] = useState("");
   const [showVerifyState, setShowVerifyState] = useState(false);
@@ -27,49 +21,20 @@ export default function SignInPage() {
   const auth = getAuth(app);
 
   async function confirmResponse(enteredOTP) {
-    await responseState.confirm(enteredOTP).then(async (response) => {
-      console.log(response);
-      let currentUserID = response.user.uid;
-      let userMetaData = response.user.metadata;
-      // console.log(response.user.providerInfo);
 
-      setShowVerifyState(false);
-      await updateProfile(auth.currentUser, {
-        displayName: userDetailsState.name,
-      });
+   await responseState.confirm(enteredOTP).then(response=>{
+    console.log(response)
+    console.log(response.user.uid)
+    console.log(response.user.metadata)
+    console.log(response.user.providerInfo)
+    setShowVerifyState(false)
+   })
 
-      let userCollectionRef = collection(
-        database,
-        "USERS",
-        currentUserID,
-        "details"
-      );
+   
 
-      if (!signIn) {
-        console.log(userDetailsState.firstName)
-        await setDoc(
-          doc(collection(database, "NUMBERS"), userDetailsState.phoneNumber),
-          {
-            currentUserID,
-            firstName : userDetailsState.firstName
-          }
-        );
+}
 
-        await addDoc(userCollectionRef, {
-          name: userDetailsState.name,
-          createdAt: userMetaData.creationTime,
-          phoneNumber: userDetailsState.phoneNumber,
-          location: userDetailsState.location,
-        }).then((response) => {
-          window.alert("user account update sucessful");
-          router.push("/cart");
-          return;
-        });
-      }
-      router.push("/cart");
 
-    });
-  }
 
   async function requestOTP(number) {
     function setUpRecaptcha() {
@@ -86,7 +51,7 @@ export default function SignInPage() {
       .then((response) => {
         console.log(response);
         setResponseState(response);
-        setShowVerifyState(true);
+        setShowVerifyState(true)
       })
       .catch((err) => {
         console.log(err);
@@ -107,7 +72,6 @@ export default function SignInPage() {
                 setSignIn={setSignIn}
                 signInState={signIn}
                 setNumberState={setNumberState}
-                setUserDetailsState={setUserDetailsState}
               />
             ) : (
               <SignUPComponent
@@ -115,15 +79,11 @@ export default function SignInPage() {
                 setSignIn={setSignIn}
                 signInState={signIn}
                 setNumberState={setNumberState}
-                setUserDetailsState={setUserDetailsState}
               />
             )}
           </div>
           {showVerifyState ? (
-            <OtpVerify
-              setUserOtpState={setUserOtpState}
-              confirmResponse={confirmResponse}
-            />
+            <OtpVerify setUserOtpState={setUserOtpState} confirmResponse={confirmResponse} />
           ) : (
             ""
           )}

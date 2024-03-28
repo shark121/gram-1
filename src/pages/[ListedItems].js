@@ -2,9 +2,9 @@ import { list } from "firebase/storage";
 import { storage, app, database } from "../../firebaseConfig";
 import { doc, collection, getDocs, getDoc } from "firebase/firestore";
 import Image from "next/image";
-import { useEffect } from "react";
-import Search from "../../components/ui/search2";
 import Menu from "../../components/Menu";
+import { useEffect } from "react";
+import Search from "../../components/search2";
 
 function ListedItems({  newData }) {
   let collectedData = newData;
@@ -13,6 +13,7 @@ function ListedItems({  newData }) {
 
   return (
     <div className="flex h-screen w-screen  flex-wrap justify-center gap-4 p-4">
+      <Search />
       <div>
         <Menu menuItems={collectedData} menuType={"ListedItems"} />
       </div>
@@ -54,17 +55,11 @@ export async function getStaticProps(context) {
   let getDocumentData = await getDoc(doc(database, "Collection", route));
 
   let documentData = getDocumentData.data();
- 
-  console.log(documentData);
-  
 
-  let dataArray = []
+  let getObjects = documentData.objects;
 
-  for (const key in documentData) {
-    dataArray.push({[key.toString()] : documentData[key]});
-  }
+  let dataArray = [...getObjects];
 
-  
   return {
     props: {
       newData: dataArray,

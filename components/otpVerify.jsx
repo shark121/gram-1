@@ -58,7 +58,7 @@ export default function OtpVerify({ setUserOtpState, confirmResponse }) {
     <div className="absolute inset-0 z-20 flex items-center justify-center ">
       <div className="absolute inset-0 z-20 flex items-center justify-center bg-[#28282B] opacity-80 backdrop-blur-[10px]"></div>
 
-      {/* <div className="z-30 flex h-[15rem] w-[20rem] flex-col items-center justify-center rounded-2xl bg-gray-50 p-4 sm:hidden ">
+      <div className="sm:hidde z-30 flex h-[15rem] w-[20rem] flex-col items-center justify-center rounded-2xl bg-gray-50 p-4 sm:hidden ">
         <div className="m-4 text-center font-bold text-gray-600">
           Verification code
         </div>
@@ -81,7 +81,7 @@ export default function OtpVerify({ setUserOtpState, confirmResponse }) {
             verify
           </button>
         </div>
-      </div> */}
+      </div>
 
       <div className=" z-30 hidden h-[20rem] w-[22rem]  flex-col rounded-3xl bg-gray-50 p-8 sm:flex sm:h-[15rem] sm:w-[35rem] sm:gap-4 sm:text-[1.5rem]">
         <div className="h-[7rem] w-full  text-center text-gray-500">

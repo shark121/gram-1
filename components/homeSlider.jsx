@@ -9,7 +9,7 @@ import airpods from "../src/images/airpodsNoBg.png";
 import Image from "next/image";
 import watch from "../src/images/watchCropped.png";
 import iphone from "../src/images/iphone-12-pro-cropped.png";
-import Element from "./ui/Element";
+import Element from "./Element";
 
 let products = [
   {
