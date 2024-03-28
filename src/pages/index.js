@@ -1,71 +1,184 @@
-import { motion } from "framer-motion";
-import Slider from "../../components/Slider";
-import {atom, getDefaultStore} from "jotai"
-import SearchBar from "../../components/SearchBar";
-import Menu from "../../components/Menu";
-import airpods from "../images/airpods.jpg";
-import iphone from "../images/iphone.jpg";
-import accessoriesImg from "../images/accessories.jpg";
-import watchesImg from "../images/watches.jpg";
-import Logo from "../images/LogoSmall.png";
-import Image from "next/image";
-import { useEffect } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import Icon from "../images/svgImages/gram";
+import CategoriesSlider from "../../components/categoriesSlider";
+import Element from "../../components/ui/Element";
+import airpods from "../images/airpodsNoBg.png";
+import iphone from "../images/iphone-12-pro-cropped.png";
+// import UserSVG from "@/images/svgImages/userSVG";
+import { Comfortaa } from "next/font/google";
+import { getAuth } from "firebase/auth";
+import { app } from "../../firebaseConfig";
+import { SheetComponent } from "../../components/ui/sheet";
 
+const comfortaa = Comfortaa({
+  weight: "400",
+  subsets: ["latin"],
+});
 
-
-export let containerArrayAtom = atom([]);
-
-export const dataArrayAtom = atom([])
-
-let menuItems = [
+let products = [
   {
-    image: airpods,
-    name: "airpods",
-    collection: "airpods",
+    name: "airpods Pro",
+    price: 1199.0,
+    imageUrl:
+      "https://firebasestorage.googleapis.com/v0/b/gram-gadget.appspot.com/o/airpods-3rd-gen-nobg.png?alt=media&token=507260d1-996c-4cc7-be4e-3c2709174a5f&_gl=1*1pgxv45*_ga*MTQ4NzUxOTk5NC4xNjc5MTk3MjM4*_ga_CW55HF8NVT*MTY5NjcxNjY2MC4xNDguMS4xNjk2NzE2ODUwLjcuMC4w",
+    initial: 1400,
   },
   {
-    image: iphone,
-    name: "iphone",
-    collection: "phones",
+    name: "series 3",
+    price: 1200.0,
+    imageUrl:
+      "https://firebasestorage.googleapis.com/v0/b/gram-gadget.appspot.com/o/daniel-korpai-hbTKIbuMmBI-unsplash.jpg?alt=media&token=cbf54c84-e231-457e-817e-c37024ecb3ba&_gl=1*16dfo48*_ga*MTQ4NzUxOTk5NC4xNjc5MTk3MjM4*_ga_CW55HF8NVT*MTY5NjY5NjcyMy4xNDYuMS4xNjk2Njk2NzM1LjQ4LjAuMA..",
+    newItem: true,
   },
   {
-    image: watchesImg,
-    name: "apple watch",
-    collection: "watches",
+    name: "iphone 11 Pro",
+    price: 1200.0,
+    imageUrl: iphone,
   },
   {
-    image: accessoriesImg,
-    name: "accessories",
-    collection: "accessories",
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+    initial: 3000,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+  },
+  {
+    name: "airpods Pro",
+    price: 1200.0,
+    imageUrl: airpods,
+    newItem: true,
   },
 ];
 
 function HomePage() {
+  let list = [];
 
- 
+  list = products.map((element, i) => {
+    return (
+      <Element
+        price={element.price}
+        name={element.name}
+        image={element.imageUrl}
+        initial={element.initial}
+        newItem={element.newItem}
+        scale={element.scale}
+        key={i}
+      />
+    );
+  });
+
   return (
-    <div
-      className={`flex min-h-screen w-full flex-col items-center justify-center bg-white p-2 overflow-x-hidden`}
-    >
-      <div className="relative flex h-[5rem] w-[12rem] items-center justify-center">
-        <Image
-          src={Logo}
-          fill
-          className="object-cover"
-          quality={10}
-          alt={"logo"}
-        />
+    <main className={`flex items-center justify-center `}>
+      <div className="flex w-full flex-col items-center justify-center ">
+        <div className="sticky top-0 z-50 flex h-[6rem] w-full flex-col items-center justify-between bg-white">
+          <div className="flex h-[2.5rem] w-full items-center justify-between px-4 py-2">
+            <SheetComponent />
+            <Icon height={"7rem"} width={"8rem"} />
+            <div className="h-[10rem]l  flex w-[5rem] items-center justify-between">
+              <Link
+                href={"/userPage"}
+                className=" flex h-[2rem] w-[2.2rem] items-center justify-center rounded-full bg-gray-200"
+              >
+                {/* <UserSVG height={"2rem"} /> */}
+              </Link>
+              <div className="h-[3rem] w-[3rem] bg-red-400"></div>
+            </div>
+          </div>
+          <div className="h-[2.5rem] w-full sm:w-[25rem]">
+            <CategoriesSlider />
+          </div>
+        </div>
+        <div className="flex w-full flex-wrap items-center justify-center">
+          {...list}
+        </div>
       </div>
-      <SearchBar />
-      <div className="flex h-[20rem] w-full items-center justify-center !px-2 !py-4 md:[&>*]:w-[40rem] ">
-        <Slider />
-      </div>
-      <Menu menuItems={menuItems} menuType={"homePage"} />
-    </div>
-  )
-
-
- 
+    </main>
+  );
 }
 
 export default HomePage;
