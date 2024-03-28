@@ -1,14 +1,13 @@
+
 import Image from "next/image";
-import Logo from "../src/images/Logo.png";
-import Link from "next/link";
-import Cart from "../src/images/svgImages/cart";
+// import Logo from "../src/images/Logo.png";
+// import Link from "next/link";
+import Cart from "../../src/images/svgImages/cart";
 import { useState } from "react";
 import { motion as m } from "framer-motion";
-import HomeSVG from "@/images/svgImages/homeSVG";
-import ExploreSVG from "@/images/svgImages/exploreSVG";
-import SearchIcon from "@/images/svgImages/searchIcon";
-// home explore cart search
-
+import ExploreSVG from "../../src/images/svgImages/exploreSVG";
+import SearchIcon from "../../src/images/svgImages/searchIcon";
+import HomeSVG from "../../src/images/svgImages/homeSVG";
 // navigation home
 
 let navigations = [
@@ -70,7 +69,7 @@ export default function NavBar() {
 
   list = navigations.map(({ destination, svgUrl, link }) => {
     return (
-      <Destination destination={destination} svgUrl={svgUrl} link={link} />
+      <Destination destination={destination} svgUrl={svgUrl} link={link} key={destination} />
     );
   });
 

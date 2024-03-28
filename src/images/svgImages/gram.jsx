@@ -2,9 +2,6 @@ import React from "react";
 import { motion as m } from "framer-motion";
 
 
-
-
-
 function Icon({height,width}) {
 
   let getHeight = height || "100%"

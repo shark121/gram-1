@@ -1,20 +1,23 @@
 import { useRef, useState } from "react";
+import { getAuth } from "firebase/auth";
+import { collection, runTransaction, doc } from "firebase/firestore";
+import { database } from "../../firebaseConfig";
 
 export default function SignInComponent({
   requestOTP,
   setSignIn,
   signInState,
-  setNumberState
-  
+  setNumberState,
+  setUserDetailsState,
 }) {
   const firstNameRef = useRef("");
   const phoneNumberRef = useRef("");
-  let countryCode = "+233"
+  let countryCode = "+1";
+  const auth = getAuth();
 
-  function handleSubmit() {
+  async function handleSubmit() {
     let firstName = firstNameRef.current.value;
     let phoneNumber = phoneNumberRef.current.value;
-
 
     let isValidPhoneNumber =
       phoneNumber.length == 10 &&
@@ -24,18 +27,37 @@ export default function SignInComponent({
     console.log(firstName);
 
     if (!(firstName && phoneNumber)) {
-      window.alert("please enter all credentials")
-
+      window.alert("please enter all credentials");
     } else if (!isValidPhoneNumber) {
-      window.alert("please enter a valid phone number");
       
+      //window.alert("please enter a valid phone number");
     }
 
-    const formattedPhoneNumber = countryCode + phoneNumber.slice(1)
+    const formattedPhoneNumber = countryCode + phoneNumber.slice(1);
 
+    let userDetails = {
+      firstName,
+      phoneNumber,
+    };
 
-    setNumberState(formattedPhoneNumber)
-    requestOTP()
+    await runTransaction(database, async (transaction) => {
+      let docRef = doc(collection(database, "NUMBERS"), phoneNumber);
+
+      const userInfo = await transaction.get(docRef);
+
+      if (userInfo.exists()) {
+        if (userInfo.data().firstName === firstName) {
+          setUserDetailsState(userDetails);
+          setNumberState(formattedPhoneNumber);
+          requestOTP(formattedPhoneNumber);
+        }
+      } else if ((userInfo.exists()) &&( userInfo.data().firstName != firstName)) {
+        window.alert("phone number already in use");
+      }else{
+        window.alert("you have to sign up to use your account")
+        setSignIn(false)
+      }
+    });
   }
 
   return (

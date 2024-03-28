@@ -2,7 +2,7 @@ import CollectColorData from "./ColorMap";
 import { useEffect, useState } from "react";
 import { Sacramento } from "@next/font/google";
 import {atom, useAtom, getDefaultStore} from "jotai"
-import { storageAtom } from "./StorageSlider";
+import { storageAtom } from "../storage/StorageSlider";
 
 
 const sacramento = Sacramento({

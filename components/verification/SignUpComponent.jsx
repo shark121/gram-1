@@ -1,37 +1,24 @@
+import { runTransaction, doc, collection } from "firebase/firestore";
 import { useRef, useState } from "react";
+import { database } from "../../firebaseConfig";
 
 export default function SignUPComponent({
   requestOTP,
   setSignIn,
   signInState,
   setNumberState,
+  setUserDetailsState,
 }) {
   let firstNameRef = useRef(null);
   let phoneNumberRef = useRef(null);
   let lastNameRef = useRef(null);
   let locationRef = useRef(null);
 
-  let countryCode = "+233";
+  let countryCode = "+1";
 
   let [locationState, setLocationState] = useState("");
 
-  function getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(showLocation, (err)=>console.log(err.message),{timeout:6000});
-    } else {
-      window.alert("Geolocation is not supported by this browser.");
-    }
-
-    function showLocation(position) {
-      let location =
-        position.coords.latitude + "  " + position.coords.longitude;
-      console.log(position);
-
-      setLocationState(location);
-    }
-  }
-
-  function handleSubmit() {
+  async function handleSubmit() {
     let firstName = firstNameRef.current.value;
     let lastName = lastNameRef.current.value;
     let phoneNumber = phoneNumberRef.current.value;
@@ -39,26 +26,48 @@ export default function SignUPComponent({
 
     console.log(firstName, lastName, phoneNumber, location);
 
-    let credentialsEntered =
-      firstName && lastName && phoneNumber && location;
+    let credentialsEntered = firstName && lastName && phoneNumber && location;
 
     let isValidPhoneNumber =
       phoneNumber.length == 10 &&
       String(Number(phoneNumber)) != "NaN" &&
       phoneNumber[0] == "0";
+      
 
     if (!credentialsEntered) {
       window.alert("please enter all credentials");
       return;
     } else if (!isValidPhoneNumber) {
-      window.alert("please enter a valid phone number");
-      return;
+      // window.alert("please enter a valid phone number");
+      // return;
     }
 
     const formattedPhoneNumber = countryCode + phoneNumber.slice(1);
 
-    setNumberState(formattedPhoneNumber);
-    requestOTP(formattedPhoneNumber);
+    await runTransaction(database, async (transaction) => {
+      let docRef = doc(collection(database, "NUMBERS"), phoneNumber);
+
+      const userInfo = await transaction.get(docRef);
+      // console.log("running transaction")
+      if (userInfo.exists()) {
+        window.alert("phone number already in use sign In insteadF")
+        setSignIn(true);
+      } else {
+
+        setNumberState(formattedPhoneNumber);
+        requestOTP(formattedPhoneNumber);
+        let userDetails = {
+          firstName: firstName.trim(),
+          name: (firstName + " " + lastName).trim(),
+          location: location.trim(),
+          phoneNumber: phoneNumber.trim(),
+        };
+
+        setUserDetailsState(userDetails);
+      }
+    }).then(() => {
+      console.log("success");
+    }).catch((error) => { console.log(error) });
 
     // window.alert("signed in");
   }
@@ -112,12 +121,12 @@ export default function SignUPComponent({
               className=" flex justify-between text-sm font-medium leading-6 text-gray-900"
             >
               <p>Location(City)</p>{" "}
-              <button
+              {/* <button
                 className="font-semibold leading-6 text-[#ff0066] hover:text-[#ff0066]/50"
                 onClick={getLocation}
               >
                 Use Maps
-              </button>
+              </button> */}
             </label>
             <div className="mt-2">
               <input

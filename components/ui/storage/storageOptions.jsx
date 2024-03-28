@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Options from "./Options";
+import Options from "../../Options";
 
 
 export default function StorageOptions({storage, setStorage, storageData}) {

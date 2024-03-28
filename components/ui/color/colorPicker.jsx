@@ -7,7 +7,7 @@ import { getDefaultStore, useAtom, atom, useSetAtom } from "jotai";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
-import Slider from "./Slider";
+import Slider from "../storage/Slider";
 
 // import required modules
 

@@ -2,8 +2,8 @@ import airpods from "../images/airpodsNoBg.png";
 import Image from "next/image";
 import watch from "../images/watchCropped.png";
 import iphone from "../images/iphone-12-pro-cropped.png";
-import NavBar from "../../components/NavBar";
-import Element from "../../components/Element";
+import NavBar from "../../components/ui/NavBar";
+import Element from "../../components/ui/Element";
 
 let products = [
   {
