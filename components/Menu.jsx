@@ -1,25 +1,34 @@
 import Image from "next/image";
-import { atom, getDefaultStore, useAtom } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-export const typeAtom = atom("");
 
-function MapList({ image, itemName, collection, menuType, price }) {
-  let defaultStore = getDefaultStore();
+
+function MapList({ image, itemName, price }) {
+  
+  let customizable = ["laptops","phones"]
+
+  
 
   let router = useRouter();
 
   function navigateToNext() {
-    if (menuType === "homePage") {
-      router.push(`./${collection}`);
-    } else if (menuType === "ListedItems") {
-      router.push(`./addToCart/${itemName}`);
+    let itemCollection = sessionStorage.getItem("collection")
 
-      sessionStorage.setItem("type", itemName);
+    const imageString = String(image)
 
-      console.log(defaultStore.get(typeAtom));
+    sessionStorage.setItem("img",imageString)
+ 
+    if(customizable.includes(itemCollection)){ 
+      router.push(`./addToCart/${itemName}?image=${imageString}`)
+    }else{
+      router.push(`./addNonCustom/${itemCollection}/${itemName}?image=${imageString}`)
+  
     }
+     
+  
+
+    sessionStorage.setItem("type", itemName);
   }
 
   return (
@@ -30,7 +39,8 @@ function MapList({ image, itemName, collection, menuType, price }) {
       <div className="relative h-[4.5rem] w-[4.5rem] content-center justify-center rounded-xl ">
         <Image
           src={image}
-          fill
+          height={60}
+          width={65}
           className="rounded-xl  object-cover  "
           alt={"picture"}
         />
@@ -41,22 +51,27 @@ function MapList({ image, itemName, collection, menuType, price }) {
   );
 }
 
-function Menu({ menuItems, menuType }) {
-  let list = menuItems.map(({ image, name, collection,price }) => {
+function Menu({menuItems, menuType}) {
+
+  let list = menuItems.map((item) => {
+
+    const image = Object.values(item)[0];
+    const nameID = Object.keys(item)[0];
+
+    console.log(image, nameID);
     return (
       <MapList
         image={image}
-        itemName={name}
-        key={name}
-        collection={collection}
+        itemName={nameID}
+        key={nameID}
         menuType={menuType}
       />
     );
   });
 
   return (
-    <div className=" flex w-full flex-wrap items-center justify-center gap-1 rounded-xl px-1">
-      {list}
+    <div className=" flex w-full flex-wrap items-center justify-center gap-1 rounded-xl px-1 transition-all duration-150">
+      {...list}
     </div>
   );
 }

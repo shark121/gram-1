@@ -1,11 +1,11 @@
 import React from "react";
 
-export default function UserSVG() {
+export default function UserSVG({height,width}) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="100%"
-      height="100%"
+      height={height ? height :"100%"}
+      width={width ? width : "100%"}
       fill="none"
       viewBox="0 0 24 24"
     >

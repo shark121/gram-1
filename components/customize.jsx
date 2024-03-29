@@ -1,5 +1,5 @@
-import ColorSlider from "./ColorSlider";
-import SliderComponent from "./Slider";
+import ColorSlider from "./ui/color/ColorSlider";
+import SliderComponent from "./ui/storage/Slider";
 
 
 export default function Customize({
