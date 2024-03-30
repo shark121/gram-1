@@ -1,12 +1,10 @@
-import { idGenerator } from "../../../components/Globalfunctions/idGenerator";
+import { idGenerator } from "../utils/Globalfunctions/idGenerator";
 import { Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import iphone from "../../images/iphoneBgBlack.jpg";
 import Image from "next/image";
 import { database } from "../../../firebaseConfig";
-
-import Customize from "../../../components/customize";
-
+import Customize from "../../../components/ui/customize";
 import { collection, doc, getDoc } from "firebase/firestore";
 
 const collectionRef = collection(database, "phones");

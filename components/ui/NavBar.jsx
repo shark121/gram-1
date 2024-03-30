@@ -1,13 +1,14 @@
-
 import Image from "next/image";
-// import Logo from "../src/images/Logo.png";
-// import Link from "next/link";
+import Link from "next/link";
 import Cart from "../../src/images/svgImages/cart";
 import { useState } from "react";
 import { motion as m } from "framer-motion";
+// import HomeSVG from "/images/svgImages/homeSVG";
+import HomeSVG from "../../src/images/svgImages/homeSVG";
 import ExploreSVG from "../../src/images/svgImages/exploreSVG";
 import SearchIcon from "../../src/images/svgImages/searchIcon";
-import HomeSVG from "../../src/images/svgImages/homeSVG";
+// home explore cart search
+
 // navigation home
 
 let navigations = [
@@ -46,15 +47,17 @@ export default function NavBar() {
     return (
       <button
         onClick={() => handleOnclick(destination)}
-        className={`h-full w-[25%] flex items-center justify-center ${isCurrent ? currentStyling : ""}`}
+        className={`flex h-full w-[25%] items-center justify-center ${
+          isCurrent ? currentStyling : ""
+        }`}
       >
         <div className="h-full w-full p-4">
           {svgUrl}
-          <div className="flex  h-[20%] w-full items-center justify-center mt-[2px] ">
+          <div className="mt-[2px]  flex h-[20%] w-full items-center justify-center ">
             <m.div
-            initial={{x:10}}
+              initial={{ x: 10 }}
               animate={{ x: 0 }}
-              transition={{ease:"easeInOut"}}
+              transition={{ ease: "easeInOut" }}
               className={`h-[7px] w-[7px]  rounded-full bg-[#ff0066]  ${
                 !isCurrent ? "hidden" : ""
               }`}
@@ -69,12 +72,12 @@ export default function NavBar() {
 
   list = navigations.map(({ destination, svgUrl, link }) => {
     return (
-      <Destination destination={destination} svgUrl={svgUrl} link={link} key={destination} />
+      <Destination destination={destination} svgUrl={svgUrl} link={link} />
     );
   });
 
   return (
-    <div className="box-border flex h-[4rem] w-screen items-center justify-around  bg-gray-200 m-4 rounded-sm">
+    <div className="m-4 box-border flex h-[4rem] w-screen items-center  justify-around rounded-sm bg-gray-200">
       {...list}
     </div>
   );

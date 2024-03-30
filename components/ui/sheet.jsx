@@ -38,11 +38,11 @@ export function SheetComponent() {
             <Link href="/cart">Cart</Link>
           </SheetClose>
         </div>
-        <SheetFooter>
+        {/* <SheetFooter>
           <SheetClose asChild>
             <Button type="submit">Save changes</Button>
           </SheetClose>
-        </SheetFooter>
+        </SheetFooter> */}
       </SheetContent>
     </Sheet>
   );

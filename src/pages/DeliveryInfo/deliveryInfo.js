@@ -1,7 +1,7 @@
 
 import { useRef } from "react"
 import { useState } from "react"
-import DialogModal from "../../../components/ui/Dialog/dialog"
+import DialogModal from "../../../components/Dialog/dialog"
 
 
 export default function DeliveryInfo({setHasProvidedInformation, setShouldDisplayShippingInfoWindow, setFullNameState, setPhoneNumberState, setAddressState, setCityState, setRegionState, setAddressDescriptionState}){  

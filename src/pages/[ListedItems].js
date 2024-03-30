@@ -4,7 +4,7 @@ import { doc, collection, getDocs, getDoc } from "firebase/firestore";
 import Image from "next/image";
 import { useEffect } from "react";
 import Search from "../../components/ui/search2";
-import Menu from "../../components/Menu";
+import Menu from "../../components/ui/Menu";
 
 function ListedItems({  newData }) {
   let collectedData = newData;

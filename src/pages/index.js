@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import Icon from "../images/svgImages/gram";
-import CategoriesSlider from "../../components/categoriesSlider";
+import CategoriesSlider from "../../components/ui/categoriesSlider";
 import Element from "../../components/ui/Element";
 import airpods from "../images/airpodsNoBg.png";
 import iphone from "../images/iphone-12-pro-cropped.png";
@@ -10,6 +10,8 @@ import { Comfortaa } from "next/font/google";
 import { getAuth } from "firebase/auth";
 import { app } from "../../firebaseConfig";
 import { SheetComponent } from "../../components/ui/sheet";
+import useWindowDimensions from "../lib/hooks/useWindowDiamentions";
+import {isMobile} from "../lib/utils/utils"
 
 const comfortaa = Comfortaa({
   weight: "400",
@@ -135,8 +137,21 @@ let products = [
   },
 ];
 
+
 function HomePage() {
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+
+  console.log(width, "width");
   let list = [];
+
+  useEffect(() => {
+    setWidth(window.innerWidth);
+  }, []);
+
+  useEffect(() => {
+    console.log(width, "width");
+  }, [width]);
 
   list = products.map((element, i) => {
     return (
@@ -162,11 +177,11 @@ function HomePage() {
             <div className="h-[10rem]l  flex w-[5rem] items-center justify-between">
               <Link
                 href={"/userPage"}
-                className=" h-[2rem] w-[2.2rem] items-center justify-center hidden rounded-full bg-gray-200"
+                className=" hidden h-[2rem] w-[2.2rem] items-center justify-center rounded-full bg-gray-200"
               >
                 {/* <UserSVG height={"2rem"} /> */}
               </Link>
-              <div className="h-[3rem] w-[3rem] hidden bg-red-400"></div>
+              <div className="hidden h-[3rem] w-[3rem] bg-red-400"></div>
             </div>
           </div>
           <div className="h-[2.5rem] w-full sm:w-[25rem]">

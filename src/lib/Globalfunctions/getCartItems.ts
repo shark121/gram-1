@@ -1,9 +1,9 @@
 export function getCartItems() {
-  let CART_DATA = [];
+  let CART_DATA: string[] = [];
 
-  let ID_LIST = [];
+  let ID_LIST : string[] = [];
 
-  let collectedIds = JSON.parse(sessionStorage.getItem("ID_ARRAY"));
+  let collectedIds :string[] = JSON.parse(sessionStorage.getItem("ID_ARRAY"));
 
 
 
@@ -15,7 +15,6 @@ export function getCartItems() {
     
     CART_DATA.push(sessionStorage.getItem(collectedIds[key]));
 
-    JSON.parse(collectedIds);
   }
 
   return CART_DATA

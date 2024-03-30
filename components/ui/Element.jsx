@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { idGenerator } from "../Globalfunctions/idGenerator";
+import { idGenerator } from "../../src/lib/Globalfunctions/idGenerator";
 import { useRouter } from "next/router";
 
 export default function Element({

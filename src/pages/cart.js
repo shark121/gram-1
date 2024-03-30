@@ -19,7 +19,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import Pieces from "../../components/ui/Pieces";
 import DeleteIcon from "../images/svgImages/deleteIcon";
 import { data } from "autoprefixer";
-import { idGenerator } from "../../components/Globalfunctions/idGenerator";
+import { idGenerator } from "../lib/Globalfunctions/idGenerator";
 import { createContext } from "react";
 import { currentQuantityAtom } from "../../components/ui/Pieces";
 import { useSelector, useDispatch, Provider } from "react-redux";

@@ -24,6 +24,7 @@
     "firebase": "^9.22.1",
     "framer-motion": "^10.12.12",
     "input-otp": "^1.0.1",
+    "jotai": "^2.7.2",
     "lucide-react": "^0.352.0",
     "next": "13.4.2",
     "postcss": "8.4.23",
