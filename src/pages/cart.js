@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useEffect, useRef  , useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import iphone from "../images/iphone.jpg";
 import Link from "next/link";
@@ -39,7 +39,7 @@ const povider = new GoogleAuthProvider();
 
 function addIndividualStyle(name) {
   if (name === "type") {
-    return "font-bold text-[#Ff0066] text-[1rem]";
+    return "font-bold text-[#Ff0066] text-[1rem] text-ellipsis";
   } else if (name === "image") {
     return "";
   } else {
@@ -51,7 +51,6 @@ function Cart({ pricesObject }) {
   let priceData = pricesObject;
 
   const router = useRouter();
-
 
   const { cartDataState, total } = useSelector((state) => state.cart);
   const [phoneNumberState, setPhoneNumberState] = useState("");
@@ -106,7 +105,7 @@ function Cart({ pricesObject }) {
     dispatch(removeProps());
 
     if (!auth.currentUser) {
-      signInWithPopup(auth, povider)
+      signInWithPopup(auth, povider);
       return;
     }
 
@@ -141,12 +140,12 @@ function Cart({ pricesObject }) {
           deliveryOnRoute: false,
           pickupAvailable: false,
           createdAt: new Date().toUTCString(),
-          phoneNumber : phoneNumberState,
-          fullName : fullNameState,
-          address : addressState,
-          city : cityState,
-          region : regionState,
-          addressDescription : addressDescriptionState,
+          phoneNumber: phoneNumberState,
+          fullName: fullNameState,
+          address: addressState,
+          city: cityState,
+          region: regionState,
+          addressDescription: addressDescriptionState,
         });
       })
       .then(() => {
@@ -181,7 +180,7 @@ function Cart({ pricesObject }) {
     // console.log(name,info)
     if (!shouldExclude.includes(name))
       return (
-        <div className="my-4 h-[1rem] w-full text-lg">
+        <div className="my-4 w-full text-lg">
           <div
             className={`m-2 text-left text-[0.9rem]  ${addIndividualStyle(
               name
@@ -204,8 +203,14 @@ function Cart({ pricesObject }) {
     }
     return (
       <div className=" m-4 text-gray-400">
-        <div className="flex min-h-[5rem] w-full items-center justify-center p-4 text-left text-[0.9rem] ">
-          <div className="relative flex h-[7rem] w-[10rem] justify-between ">
+        <div className="flex min-h-[3rem] w-full items-center justify-center py-2 text-left text-[0.9rem] ">
+        <button
+          className="h-[1.8rem] w-[1.8rem]"
+          onClick={() => handleDelete(id, price)}
+        >
+          <DeleteIcon />
+        </button>
+          <div className="relative flex h-full w-[10rem] justify-center ">
             <Image
               src={data.img}
               height={60}
@@ -214,16 +219,8 @@ function Cart({ pricesObject }) {
               alt={"phone image"}
             />
           </div>
-          <div className="flex h-full w-full  items-center justify-center">
-            <div className="h-full w-[70%] p-4">
-              {...list}
-              <button
-                className="ml-1 h-[1.8rem] w-[1.8rem]"
-                onClick={() => handleDelete(id, price)}
-              >
-                <DeleteIcon />
-              </button>
-            </div>
+          <div className="flex h-full w-full  items-center justify-start">
+            <div className="h-full w-[70%] p-1 text-ellipsis ">{...list}</div>
             <div
               className="flex h-[100%]  w-[30%] flex-col items-center justify-center "
               // onClick={setPricesState(sessionStorage.getItem("currentTotal"))}
@@ -237,7 +234,7 @@ function Cart({ pricesObject }) {
         </div>
       </div>
     );
-}
+  }
 
   let list = cartDataState.map((element, key) => {
     return <DropCard data={element} key={key} />;
@@ -254,26 +251,18 @@ function Cart({ pricesObject }) {
         setCityState={setCityState}
         setRegionState={setRegionState}
         setAddressDescriptionState={setAddressDescriptionState}
-
       />
     );
   return (
     <div className="min-w-screen flex min-h-screen items-center justify-center bg-[#] py-4">
       <div className="relative flex min-h-screen w-screen flex-col items-center md:w-[30rem] md:rounded-2xl">
-        <div className="my-4 flex h-[7rem] w-full flex-col items-center justify-center px-4">
-          <div className="h-[4rem] w-full text-[2.1rem] text-gray-500">
+        <div className="my-4 flex h-[4rem] w-full flex-col items-center justify-center px-4 relative">
+          <div className="h-[4rem] w-full text-[2.1rem] text-gray-500 text-center">
             {"Cart."}
           </div>
-          <button
-            className="flex h-[2rem] w-full items-center gap-10 text-[1.5rem] text-gray-400"
-            onClick={() => router.push("/")}
-          >
-            <div className="pointer flex h-[3rem] w-[3rem] items-center justify-center rounded-full bg-gray-200 text-[2rem] text-gray-400">
-              +
-            </div>
-          </button>
+      
         </div>
-        <div className=" items-left flex min-h-[50vh] w-full flex-col justify-center rounded-xl bg-white">
+        <div className=" items-left flex min-h-[50vh] w-full flex-col justify-start rounded-xl bg-white">
           {...list}
         </div>
         <div className="items-left flex h-[6rem] w-[18rem] flex-col justify-center rounded-lg bg-gray-200 p-4 font-bold text-gray-500 sm:w-full">

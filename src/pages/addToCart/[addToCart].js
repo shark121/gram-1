@@ -74,12 +74,11 @@ function AddToCart({ itemData }) {
 
   useEffect(() => {
     if (!router.isReady) return;
-    
-    let imageUrl = router.query.image
-    setImageState(imageUrl);
-    console.log(imageUrl,"done here")
-  }, [router.isReady]);
 
+    let imageUrl = router.query.image;
+    setImageState(imageUrl);
+    console.log(imageUrl, "done here");
+  }, [router.isReady]);
 
   function checkAvailable() {
     useEffect(() => {
@@ -88,9 +87,9 @@ function AddToCart({ itemData }) {
     }, [storageState]);
   }
 
-  useEffect(()=>{
-     console.log(imageState) 
-  },[imageState])
+  useEffect(() => {
+    console.log(imageState);
+  }, [imageState]);
 
   checkAvailable();
 
@@ -103,15 +102,14 @@ function AddToCart({ itemData }) {
     let maximum = itemData[0][trimmedStorage][itemColor];
     let image = sessionStorage.getItem("img");
 
-
     let trayJson = JSON.stringify({
-      type: (itemType+`(${trimmedStorage})`),
+      type: itemType + `(${trimmedStorage})`,
       color: itemColor,
       storage: itemStorage,
       id: newId,
       maximum: maximum,
       img: image,
-      qty:1
+      qty: 1,
     });
 
     sessionStorage.setItem(newId, trayJson);
@@ -119,7 +117,6 @@ function AddToCart({ itemData }) {
     let idArray = JSON.parse(sessionStorage.getItem("ID_ARRAY")) || [];
 
     idArray.push(newId);
-
 
     sessionStorage.setItem("ID_ARRAY", JSON.stringify(idArray));
 
@@ -129,31 +126,35 @@ function AddToCart({ itemData }) {
   }
 
   return (
-    
-      <div className={` flex min-h-screen items-center justify-center `}>
-        <div className="relative flex min-h-screen w-screen flex-col items-center justify-center sm:w-[30rem] landscape:h-[50vh]">
-          <div className="relative box-border flex h-[50vh] w-full items-center justify-center bg-gray-100 px-3 sm:w-[35rem]">
+    <div className={` flex min-h-screen items-center justify-center `}>
+      <div className=" flex min-h-screen w-screen flex-col items-center justify-center sm:w-[30rem] landscape:h-[50vh]">
+        <div className="relative box-border flex h-[50vh] w-full items-center justify-center bg-gray-100 px-3 sm:w-[35rem]">
             <Image
+              height={100}
+              width={100}
               src={imageState}
-              fill
-              className="absolute left-2 right-2 rounded-b-[2rem] object-contain"
+              style={{
+                height: "300px",
+                width: "auto",
+              }}
+              className="absolute inset-x-[20%] sm:inset-x-[35%] sm:top-0 inset-y-[20%]  rounded-b-[2rem] object-contain"
             />
-          </div>
-          <div className=" landscape:[50vh] flex h-[49vh]  w-full items-start justify-center">
-            <Customize
-              storageData={storageArraysState}
-              colorData={availableColors}
-              setStorageState={setStorageState}
-              setColorState={setColorState}
-              storageState={storageState}
-              colorState={colorState}
-              handleOnClick={handleOnClick}
-              isDisabled={isDisabled}
-              typeState={typeState}
-            />
-          </div>
+        </div>
+        <div className=" landscape:[50vh] flex h-[49vh]  w-full items-start justify-center">
+          <Customize
+            storageData={storageArraysState}
+            colorData={availableColors}
+            setStorageState={setStorageState}
+            setColorState={setColorState}
+            storageState={storageState}
+            colorState={colorState}
+            handleOnClick={handleOnClick}
+            isDisabled={isDisabled}
+            typeState={typeState}
+          />
         </div>
       </div>
+    </div>
   );
 }
 

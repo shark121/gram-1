@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react"
+import CarouselComponent from "./ui/carouselComponent";
 
 let menuItems = [
   {
@@ -42,5 +43,6 @@ function MenuElement({ name, collection }) {
 
   const newList = menuItems.map((props) => <MenuElement {...props} />);
 
-  return <div className="flex h-full w-full">{newList}</div>;
+  // return <div className="flex h-full w-full">{newList}</div>;
+  return <CarouselComponent elements={newList} />;
 }

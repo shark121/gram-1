@@ -3,6 +3,8 @@ import { Input } from "../../shadcn/components/ui/input";
 import Link from "next/link";
 import { Label } from "../../shadcn/components/ui/label";
 import { CgMenuLeft } from "react-icons/cg";
+import { AiOutlineBars } from "react-icons/ai";
+import { motion as m } from "framer-motion";
 import {
   Sheet,
   SheetClose,
@@ -14,35 +16,55 @@ import {
   SheetTrigger,
 } from "../../shadcn/components/ui/sheet";
 
+const SheetData = [
+  {
+    name: "home",
+    link: "/",
+  },
+  {
+    name: "user",
+    link: "/userPage",
+  },
+  {
+    name: "watches",
+    link: "/watches",
+  },
+{
+  name: "phones",
+  link: "/phones",
+
+},
+{
+  name: "airpods",
+  link: "/airpods",
+},
+  {
+    name: "cart",
+    link: "/cart",
+  },
+];
+
 export function SheetComponent() {
   return (
     <Sheet>
       <SheetTrigger asChild>
-          <CgMenuLeft className="h-[2rem] w-[2rem] cursor-pointer " />
+        <AiOutlineBars className="h-[2.5rem] w-[2rem] cursor-pointer " />
       </SheetTrigger>
       <SheetContent side={"left"}>
-        {/* <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
-          <SheetDescription>
-            Make changes to your profile here. Click save when you're done.
-          </SheetDescription>
-        </SheetHeader> */}
-        <div className="flex flex-col gap-4">
-          <SheetClose asChild>
-            <Link href="/">Home</Link>
-          </SheetClose>
-          <SheetClose asChild>
-            <Link href="/userPage">User</Link>
-          </SheetClose>
-          <SheetClose asChild>
-            <Link href="/cart">Cart</Link>
-          </SheetClose>
+        <div className="flex flex-col gap-4 text-[2rem] font-thin">
+          {SheetData.map((data, index) => (
+            <m.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3, staggerDirection: 1 }}
+              onClick={()=> sessionStorage.setItem("collection", data.name)}
+            >
+              <SheetClose asChild>
+                <Link href={data.link}>{data.name}</Link>
+              </SheetClose>
+            </m.div>
+          ))}
         </div>
-        <SheetFooter>
-          <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
-          </SheetClose>
-        </SheetFooter>
       </SheetContent>
     </Sheet>
   );

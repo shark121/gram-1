@@ -6,14 +6,14 @@ import { useEffect } from "react";
 import Search from "../../components/ui/search2";
 import Menu from "../../components/Menu";
 
-function ListedItems({  newData }) {
+function ListedItems({ newData }) {
   let collectedData = newData;
 
   console.log(collectedData);
 
   return (
-    <div className="flex h-screen w-screen  flex-wrap justify-center gap-4 p-4">
-      <div>
+    <div className="flex w-screen min-h-screen items-center justify-center">
+      <div className="flex h-screen w-screen flex-wrap  justify-center px-2 pt-6 lg:w-[50rem]">
         <Menu menuItems={collectedData} menuType={"ListedItems"} />
       </div>
     </div>
@@ -54,17 +54,15 @@ export async function getStaticProps(context) {
   let getDocumentData = await getDoc(doc(database, "Collection", route));
 
   let documentData = getDocumentData.data();
- 
-  console.log(documentData);
-  
 
-  let dataArray = []
+  console.log(documentData);
+
+  let dataArray = [];
 
   for (const key in documentData) {
-    dataArray.push({[key.toString()] : documentData[key]});
+    dataArray.push({ [key.toString()]: documentData[key] });
   }
 
-  
   return {
     props: {
       newData: dataArray,

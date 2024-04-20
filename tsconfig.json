@@ -16,13 +16,23 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "strictNullChecks": true
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "src/pages/userPage.ts", "components/ui/sheet.jsx"  ],
+    "**/*.tsx",
+    "src/pages/userPage.ts",
+    "components/ui/sheet.jsx",
+    "components/Menu.jsx",
+    ".next/types/**/*.ts"
+  ],
   "exclude": [
     "node_modules"
   ]

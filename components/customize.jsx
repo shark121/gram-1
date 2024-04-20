@@ -44,11 +44,11 @@ export default function Customize({
           />
         </div>
       </div>
-      <div className=" flex h-[3rem] w-full items-center justify-center bg-black rounded-md ">
+      <div className=" flex h-[3rem] w-[20rem] place-self-center items-center justify-center bg-black rounded-md ">
         <button
           onClick={handleOnClick}
           disabled={isDisabled}
-          className="flex w-full  justify-center  text-[1.2rem] font-bold text-white"
+          className="flex   justify-center  text-[1.2rem] font-bold text-white"
         >
           Buy
         </button>

@@ -42,14 +42,14 @@ export default function SliderComponent({
       >
         {({ isActive }) => {
           activeId === element.id
-            ? (indicatorStyle = "text-gray-900 border-x-[2px] border-gray-600")
+            ? (indicatorStyle = "text-white  border-gray-600 bg-[#a7c7e7]")
             : (indicatorStyle = "text-gray-500");
           {
             return (
               <button
                 className={`flex h-full w-[4.6rem] items-center  justify-center text-gray-500`}
               >
-                <div className={`h-full ${indicatorStyle} rounded-sm  p-2`}>
+                <div className={`h-full ${indicatorStyle} rounded-sm  p-2 w-full`}>
                   <div
                     className={`flex h-full w-full items-center justify-center  `}
                   >

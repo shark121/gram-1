@@ -32,6 +32,7 @@ let cartSlice = createSlice({
 
     updateQuantity: (state, { payload }) => {
       let localItem = JSON.parse(sessionStorage.getItem(payload.id));
+      console.log("triggered")
 
       let current = state.cartDataState.find(
         (element) => element.id === payload.id

@@ -69,7 +69,7 @@ export default function AddNonCustom() {
   // Object.keys(itemDataState);
 
   let list = keysState.map((key, i) => {
-    let shouldNotDisplay = ["id", "", "img"];
+    let shouldNotDisplay = ["id", "","maximum","qty" ,"img"];
 
     let dispKey = shouldNotDisplay.includes(key) ? "" : key;
     return (
