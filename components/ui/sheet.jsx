@@ -54,6 +54,7 @@ export function SheetComponent() {
         <div className="flex flex-col gap-4 text-[2rem] font-thin">
           {SheetData.map((data, index) => (
             <m.div
+              key={index}
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.3, staggerDirection: 1 }}

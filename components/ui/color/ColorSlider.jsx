@@ -17,7 +17,6 @@ import { FreeMode, Mousewheel, EffectFade } from "swiper";
 
 export default function ColorSlider({colorData, colorState, setColorState}) {
 
-  console.log(console.log(colorState.name))
   
   const [activeColor, setActiveColor] = useState(colorState);
 

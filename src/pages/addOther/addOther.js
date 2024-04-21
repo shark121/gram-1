@@ -6,7 +6,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import { useAmp } from "next/amp";
 
-
 function addSelectiveStyle(elementType) {
   if (elementType === "type")
     return "font-bold text-[#ff0066] text-[1.3rem] flex items-center justify-center my-2";
@@ -33,7 +32,6 @@ export default function AddNonCustom() {
     setItemDataState(itemData);
   }, [router.isReady]);
 
-
   function addToID_ARRAY(ID) {
     let ID_ARRAY = JSON.parse(sessionStorage.getItem("ID_ARRAY")) || [];
 
@@ -44,13 +42,10 @@ export default function AddNonCustom() {
     sessionStorage.setItem("ID_ARRAY", ID_ARRAY);
   }
 
-  function handleOnClick(id){
+  function handleOnClick(id) {
+    addToID_ARRAY(parsedJsonState.id);
 
-    addToID_ARRAY(parsedJsonState.id)
-
-    router.push("/cart")
-
-
+    router.push("/cart");
   }
 
   useEffect(() => {
@@ -59,7 +54,7 @@ export default function AddNonCustom() {
 
       setParsedJsonState(parsedItemData);
 
-      setImageState(parsedItemData.img)
+      setImageState(parsedItemData.img);
 
       setKeysState(Object.keys(parsedItemData));
       console.log(parsedItemData);
@@ -67,18 +62,31 @@ export default function AddNonCustom() {
   }, [itemDataState]);
 
   // Object.keys(itemDataState);
+  let shouldNotDisplay = ["id", "", "maximum", "qty", "img"];
 
-  let list = keysState.map((key, i) => {
-    let shouldNotDisplay = ["id", "","maximum","qty" ,"img"];
+  let list = keysState
+    .filter((el) => !shouldNotDisplay.includes(el))
+    .map((key, i) => {
+      const representations = {
+        type: (
+          <p className="flex items-center justify-center text-[1.3rem] font-bold text-[#ff0066]">
+            {parsedJsonState.type}
+          </p>
+        ),
+        price: <p className="text-[#ff0066]"> GH₵{parsedJsonState.price} </p>,
+        storage: <p>{parsedJsonState.storage} GB</p>,
+        color: <p>{parsedJsonState.color}</p>,
+      };
 
-    let dispKey = shouldNotDisplay.includes(key) ? "" : key;
-    return (
-      <div className={` ${addSelectiveStyle(key)} `} key={i}>
-        {" "}
-        {parsedJsonState[dispKey]}
-      </div>
-    );
-  });
+      let dispKey = shouldNotDisplay.includes(key) ? "" : key;
+      return (
+        <div className={` ${addSelectiveStyle(dispKey)} `} key={i}>
+          {representations[key]}
+          {/* {" "} */}
+          {/* {parsedJsonState[dispKey]} */}
+        </div>
+      );
+    });
 
   return (
     <div className={` flex min-h-screen items-center justify-center `}>
@@ -93,8 +101,9 @@ export default function AddNonCustom() {
         </div>
         <div className=" landscape:[45vh] my-2 flex h-[49vh]  w-full flex-col items-start justify-start px-4 sm:px-0">
           <div className="w-full">{...list}</div>
-          <button className="flex w-full items-center justify-center rounded-sm bg-gray-900 p-[0.7rem] font-bold text-white "
-          onClick={handleOnClick}
+          <button
+            className="flex w-full items-center justify-center rounded-sm bg-gray-900 p-[0.7rem] font-bold text-white "
+            onClick={handleOnClick}
           >
             buy
           </button>

@@ -40,10 +40,12 @@ let userID = "";
 
 const user = auth.currentUser;
 
-async function getOrders() {
+async function getOrders(passedUid: string | null) {
   const ORDERS: { id: string; data: OrderObjectType }[] = [];
 
-  const user = auth.currentUser;
+  console.log(passedUid, "PASSEDUID");
+
+  const user = auth.currentUser || passedUid;
 
   if (user === undefined || user === null) {
     await signInWithPopup(auth, provider)
@@ -66,7 +68,10 @@ async function getOrders() {
       });
   } else {
     const collectionRef = collection(database, "ORDERS");
-    const q = query(collectionRef, where("userUid", "==", user.uid));
+    const q = query(
+      collectionRef,
+      where("userUid", "==", user.uid || passedUid)
+    );
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       console.log(doc.id, " => ", doc.data());
@@ -80,11 +85,19 @@ async function getOrders() {
 }
 
 function OrderComponent(orders: { id: string; data: OrderObjectType }[]) {
+
+
+  if (orders.length === 0) {
+   return <div>No orders available</div>
+  }
+
+
   return (
     <div className="flex flex-col gap-4">
-      {orders.map((order) => {
+      {orders.map((order, i) => {
         return (
           <Link
+            key={i}
             href={`/OrderPage?orderID=${order.id}`}
             className=" rounded-md p-4 "
           >
@@ -96,15 +109,41 @@ function OrderComponent(orders: { id: string; data: OrderObjectType }[]) {
   );
 }
 
+
+
 export default function UserComponent() {
   const [ordersState, setOrdersState] = useState<
     { id: string; data: OrderObjectType }[] | null
   >();
 
-  const userIsNullOrUndefined =
-    auth.currentUser === null || auth.currentUser === undefined;
+  auth.currentUser === null || auth.currentUser === undefined;
 
   const [shouldSignIn, setShouldSignIn] = useState<boolean>(true);
+
+  async function fetchOrders(passedUid: string | null) {
+    await getOrders(passedUid)
+      .then((orders) => {
+        setOrdersState(orders);
+        setShouldSignIn(false);
+      })
+      .then(
+        () =>
+          auth.currentUser?.uid &&
+          sessionStorage.setItem("uid", auth.currentUser?.uid)
+      );
+  }
+
+  useEffect(() => {
+    const getUserId = sessionStorage.getItem("uid");
+    console.log(getUserId, "GETUSERID");
+    // console.log(getUserId == null)
+    if (getUserId !== null) {
+      console.log("trigerred");
+      setShouldSignIn(false);
+      fetchOrders(getUserId);
+    }
+  }, []);
+
   return (
     <div className="flex h-screen w-screen justify-center gap-2 p-8 ">
       <div
@@ -114,13 +153,8 @@ export default function UserComponent() {
       >
         {shouldSignIn && (
           <button
-          className="h-[5rem] w-[20rem] bg-gray-200 rounded-[2rem] p-4"
-            onClick={async () => {
-              await getOrders().then((orders) => {
-                setOrdersState(orders);
-                setShouldSignIn(false);
-              });
-            }}
+            className="h-[5rem] w-[20rem] rounded-[2rem] bg-gray-200 p-4"
+            onClick={async () => await fetchOrders(null)}
           >
             <div className="flex items-center justify-center gap-1">
               <p>Sign in with Google</p>
@@ -135,10 +169,4 @@ export default function UserComponent() {
   );
 }
 
-export async function getServerSideProps() {
-  return {
-    props: {
-      orders: "orders",
-    }, // will be passed to the page component as props
-  };
-}
+

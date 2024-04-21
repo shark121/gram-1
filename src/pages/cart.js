@@ -150,8 +150,9 @@ function Cart({ pricesObject }) {
       })
       .then(() => {
         console.log("order added successfully");
+        sessionStorage.setItem("ID_ARRAY", "[]");
         router.push(`/OrderPage?orderID=${orderID}`);
-      });
+      })
   }
 
   function updateSessionStorage(id) {
@@ -250,6 +251,7 @@ function Cart({ pricesObject }) {
         setAddressState={setAddressState}
         setCityState={setCityState}
         setRegionState={setRegionState}
+        handleOnClick={handleOnClick}
         setAddressDescriptionState={setAddressDescriptionState}
       />
     );

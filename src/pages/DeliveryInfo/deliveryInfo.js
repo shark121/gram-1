@@ -4,7 +4,7 @@ import { useState } from "react"
 import DialogModal from "../../../components/ui/Dialog/dialog"
 
 
-export default function DeliveryInfo({setHasProvidedInformation, setShouldDisplayShippingInfoWindow, setFullNameState, setPhoneNumberState, setAddressState, setCityState, setRegionState, setAddressDescriptionState}){  
+export default function DeliveryInfo({setHasProvidedInformation,handleOnClick, setShouldDisplayShippingInfoWindow, setFullNameState, setPhoneNumberState, setAddressState, setCityState, setRegionState, setAddressDescriptionState}){  
     const dialogOneContent = "Are you you have provided the correct information?"
     const[isDialogOneOpen, setIsDialogOneOpen] = useState(false)
     const[isDialogTwoOpen, setIsDialogTwoOpen] = useState(false)
@@ -12,7 +12,7 @@ export default function DeliveryInfo({setHasProvidedInformation, setShouldDispla
     function childFunction(){
         setHasProvidedInformation(true)
         setShouldDisplayShippingInfoWindow(false)
-        console.log("child function")
+        handleOnClick()
     }
 
     return<div className="flex items-center justify-center h-full w-full p-4 flex-col">

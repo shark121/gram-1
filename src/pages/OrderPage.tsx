@@ -1,6 +1,5 @@
 import Logo from "../images/logoSmall.png";
 import Image from "next/image";
-// import DeliveryOnRouteIcon from "";
 import DeliveryOnRouteIcon from "../images/svgImages/DeliveryOnRouteIcon";
 import PackageReadyIcon from "../images/svgImages/PackageReadyIcon";
 import PaymentReceivedIcon from "../images/svgImages/PaymentReceivedIcon";
@@ -21,6 +20,11 @@ import { Button } from "../../shadcn/components/ui/button";
 import { Input } from "../../shadcn/components/ui/input";
 
 function OrderPage({ data }) {
+
+  if (data == null) {
+    return<div className="h-[100vh] w-[100vw] flex items-center justify-center">Order unavailable</div>
+  }
+
   const router = useRouter();
   const orderID = router.query.orderID;
   const collectionRef = collection(database, "ORDERS");
@@ -36,10 +40,14 @@ function OrderPage({ data }) {
   const [deliveryOnRoute, setDeliveryOnRoute] = useState(false);
   const [pickupAvailable, setPickupAvailable] = useState(false);
   const [locationState, setLocationState] = useState<string>();
-  const [receiverNameState, setReceiverNameState] = useState<string>("");
-  const [receiverPhoneState, setReceiverPhoneState] = useState<string>("");
-  const [dateState, setDateState] = useState<string>("");
-  const [itemDataState, setItemDataState] = useState([]);
+  const [receiverNameState, setReceiverNameState] = useState<string | null>("");
+  const [receiverPhoneState, setReceiverPhoneState] = useState<string | null>(
+    ""
+  );
+  const [dateState, setDateState] = useState<string | null>("");
+  const [itemDataState, setItemDataState] = useState<
+    { [key: string]: string | number }[] | null
+  >();
 
   useEffect(() => {
     setOrderConfirmed(responseObject.orderConfirmed);
@@ -48,19 +56,23 @@ function OrderPage({ data }) {
     setDeliveryOnRoute(responseObject.deliveryOnRoute);
     setPickupAvailable(responseObject.pickupAvailable);
     setLocationState(responseObject.Location);
-    setReceiverNameState(responseObject.fullName);
-    setReceiverPhoneState(responseObject.phoneNumber);
-    setDateState(responseObject.createdAt);
-    setItemDataState(responseObject.itemsInfo);
+    setReceiverNameState(responseObject.fullName || null);
+    setReceiverPhoneState(responseObject.phoneNumber || null);
+    setDateState(responseObject.createdAt || null);
+    setItemDataState(responseObject.itemsInfo || null);
   }, []);
 
   onSnapshot(docRef, (doc) => {
-    let changes = doc.data();
-    setOrderConfirmed(changes.orderConfirmed);
-    setPaymentReceived(changes.paymentReceived);
-    setPackageReady(changes.packageReady);
-    setDeliveryOnRoute(changes.deliveryOnRoute);
-    setPickupAvailable(changes.pickupAvailable);
+    console.log(doc.exists(), "DOC");
+
+    if (doc.exists()) {
+      const changes = doc.data();
+      setOrderConfirmed(changes.orderConfirmed);
+      setPaymentReceived(changes.paymentReceived);
+      setPackageReady(changes.packageReady);
+      setDeliveryOnRoute(changes.deliveryOnRoute);
+      setPickupAvailable(changes.pickupAvailable);
+    }
   });
 
   let orderData = [
@@ -142,40 +154,57 @@ function OrderPage({ data }) {
 
   return (
     <div className="min-h-screen">
-      <div className="flex items-center justify-center p-4 flex-wrap ">
+      <div className="flex flex-wrap items-center justify-center p-4 ">
         <div className=" w-[30rem]  rounded-lg p-4">{...list}</div>
         <div className="flex  w-[20rem] flex-col gap-4 text-center text-gray-600">
-          {locationState && <div className="">
-            <div className="text-start  text-[0.5rem]">location</div>
-            <Input value={locationState} />
-          </div>}
-          {receiverNameState && <div className="">
-            <div className="text-start  text-[0.5rem]">receiver name</div>
-            <Input value={receiverNameState} />
-          </div>}
-          {receiverPhoneState && <div className="">
-            <div className="text-start  text-[0.5rem]">receiver phone</div>
-            <Input value={receiverPhoneState} />
-          </div>}
-         {dateState && <div className="">
-            <div className="text-start  text-[0.5rem]">date</div>
-            <Input value={dateState} />
-          </div>}
+          {locationState && (
+            <div className="">
+              <div className="text-start  text-[0.5rem]">location</div>
+              <Input value={locationState} />
+            </div>
+          )}
+          {receiverNameState && (
+            <div className="">
+              <div className="text-start  text-[0.5rem]">receiver name</div>
+              <Input value={receiverNameState} />
+            </div>
+          )}
+          {receiverPhoneState && (
+            <div className="">
+              <div className="text-start  text-[0.5rem]">receiver phone</div>
+              <Input value={receiverPhoneState} />
+            </div>
+          )}
+          {dateState && (
+            <div className="">
+              <div className="text-start  text-[0.5rem]">date</div>
+              <Input value={dateState} />
+            </div>
+          )}
 
           <div>
-            {itemDataState.map((item) => {
-              return (
-                <div className="bg-gray-100 m-4 p-4">
-                  <div>{item.type}</div>
-                  <div>{item.qty}</div>
-                  <div>{item.price}</div>
-                </div>
-              );
-            })}
+            {itemDataState &&
+              itemDataState.map((item) => {
+                return (
+                  <div className="m-4 flex justify-between bg-gray-50 p-4">
+                    <div className="flex flex-col items-start">
+                      <div>{item.type}</div>
+                      <div>GH₵ {item.price}</div>
+                    </div>
+                    <div className="h-6 w-6 items-center rounded-full bg-[#ff0066] text-center text-white">
+                      {item.qty}
+                    </div>
+                  </div>
+                );
+              })}
             <Button
               onClick={async () => {
-                await deleteDoc(docRef);
-                window.location.href = "/userPage";
+                await deleteDoc(docRef).then(
+                  () => {
+                    window.alert("Order has been cancelled");
+                    window.location.href = "/userPage"
+                  }
+                );
               }}
             >
               Cancel Order
@@ -194,10 +223,14 @@ export async function getServerSideProps(context) {
 
   let docRef = doc(collection(database, "ORDERS"), orderID);
 
-  let responseArray = [];
+  let responseArray: any = [];
+
   await getDoc(docRef).then((response) => {
     responseArray.push(response.data());
-  });
+  })
+   
+  console.log(responseArray, "RESPONSEARRAY");
+  responseArray = responseArray[0] === undefined ? null : responseArray;   
 
   return {
     props: {

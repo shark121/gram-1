@@ -65,6 +65,8 @@ function Menu({ menuItems, menuType }) {
   console.log(collectionType);
 
   let list = menuItems.map((item) => {
+    console.log(item)
+    
     const image = Object.values(item)[0];
     const nameID = Object.keys(item)[0];
 

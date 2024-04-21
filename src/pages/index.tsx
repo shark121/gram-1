@@ -89,9 +89,11 @@ function HomePage({ summariesObject }) {
         >
           <Element
             price={element.price}
-            name={element.type}
+            type={element.type}
             image={element.image}
             number={element.number}
+            storage={element.storage}
+            color={element.color}
             key={i}
           />
         </m.div>

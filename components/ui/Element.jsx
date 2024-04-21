@@ -5,10 +5,13 @@ import { BsFillHandbagFill } from "react-icons/bs"
 import {motion as m} from "framer-motion"
 
 export default function Element({
-  name,
+  type,
   price,
   image,
-  number
+  number,
+  storage,
+  color,
+
 }) {
   let router = useRouter();
   
@@ -26,12 +29,14 @@ export default function Element({
     let ID = idGenerator()
 
     let itemObject = {
-      type: name,
+      type: type,
       id: ID,
-      price:price,
       img:image,
       maximum : number,
-      qty:1
+      storage,
+      color,
+      qty:1,
+      price,
     };
 
     // addToID_ARRAY(ID);
@@ -64,7 +69,7 @@ export default function Element({
         />
       </div>
       <div className="absolute left-0 bottom-0 z-10 w-[100px] h-[50px] text-ellipsis text-[0.8rem] sm:text-[0.9rem]">
-      <div className="font-medium text-gray-600 w-full overflow-clip">{name}</div>
+      <div className="font-medium text-gray-600 w-full overflow-clip">{type}</div>
         <div className="font-bold text-[#ff0066]">₵{price}</div>
       </div>
     </button>

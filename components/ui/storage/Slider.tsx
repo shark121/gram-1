@@ -1,20 +1,22 @@
 //ring-[#fa0a8f]
 import React, { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useSwiperSlide } from "swiper/react";
 import { FreeMode, Mousewheel } from "swiper";
 
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/pagination";
-
+import { ColorType } from "../../../src/pages/addToCart/[addToCart]";
 
 export default function SliderComponent({
   data,
   setStorageState,
   storageState,
-}) {
-  const [activeId, setActiveId] = useState(storageState.id);
+}:{data : ColorType[], setStorageState: React.Dispatch<React.SetStateAction<ColorType>>, storageState: string | number}) {
+  
+  
+  
+  const [activeId, setActiveId] = useState(storageState ? storageState.id : 1);
 
   const [activeStorage, setActiveStorage] = useState(storageState);
 
@@ -28,7 +30,7 @@ export default function SliderComponent({
   setTrayStorage();
 
   let indicatorStyle = "";
-  let list = [];
+  let list: JSX.Element[] = [];
 
   for (let element of data) {
     list.push(
